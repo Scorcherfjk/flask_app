@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+
+{% block title%} 
+PLC
+{% endblock %}
+
+
+{% block content %}
+	<table class="table">
+		<thead class="thead-dark">
+		  	<tr class="border border-dark">
+				  <th scope="col">PLIEGO DE GOMA</th>
+				  <th scope="col">PLIEGO DE MESA ALTA</th>
+				  <th scope="col">GREEN TIRE</th>
+				  <th scope="col">COMPUESTO</th>
+				  <th scope="col">CALIBRE CALIENTE (mm) +/- 0.1 mm</th>
+				  <th scope="col">PRESIÓN DE RODILLO (PSI) +/- 10PSI</th>
+				  <th scope="col">VELOCIDAD MAXIMA (MPM)</th>
+				  <th scope="col">ANCHO SQUEEGEE +/- 5 mm</th>
+				  <th scope="col">ANCHO PLIEGO +/- 3 mm</th>
+				  <th scope="col">DIM A +/- 5mm</th>
+				  <th scope="col">DIM B +/- 5mm</th>
+				  <th scope="col">Diferencia entre liner y toegard - Yellow</th>
+				  <th scope="col">Diferencia entre liner y toegard - Red</th>
+				  <th scope="col">Diferencia entre liner y toegard - Blue</th>
+				  <th scope="col">Modificar</th>
+		  </tr>
+		</thead>
+		<tbody>
+		{% for i in lista %}
+			<tr>
+				<th class="align-middle" scope="row" rowspan="2">{{ i[1] }}</th>
+				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][15] }}</td>
+				<td class="align-middle" scope="row" rowspan="2">GREEN TIRE</td>
+				<td class="sin">COMPUESTO</td>
+				<td class="sin">{{ datos[i[0]][14] }}</td>
+				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][0] }}</td>
+				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][1] }}</td>
+				<td class="sin">{{ datos[i[0]][10] }}</td>
+				<td class="sin">{{ datos[i[0]][12] }}</td>
+				<td class="sin">{{ datos[i[0]][6] }}</td>
+				<td class="sin">{{ datos[i[0]][8] }}</td>
+				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][4] }}</td>
+				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][2] }}</td>
+				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][3] }}</td>
+				<td class="align-middle" scope="row" rowspan="2"><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
+			</tr>
+			<tr>
+				<td>COMPUESTO</td>
+				<td>{{ datos[i[0]][13] }}</td>
+				<td>{{ datos[i[0]][9] }}</td>
+				<td>{{ datos[i[0]][11] }}</td>
+				<td>{{ datos[i[0]][5] }}</td>
+				<td>{{ datos[i[0]][7] }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
