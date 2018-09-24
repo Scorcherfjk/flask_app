@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, request
-from conexiones import obtenerValores, leerString, cambioTexto, listaASCII, nuevaReceta, cambiarReceta
+from conexiones import obtenerValores, leerString, cambioTexto
+from conexiones import listaASCII, nuevaReceta, cambiarReceta
+from conexiones import leerCompuesto, leerGreenTire
 
 app = Flask(__name__)
 
@@ -13,7 +15,9 @@ def index():
 	for i in range(0,299):
 		var = leerString(host,i,"Medida")
 		if len(var) > 1:
-			lista.append([i, var])
+			compuesto = leerCompuesto(host,i)
+			greenT = leerGreenTire(host,i)
+			lista.append([i, var, greenT, compuesto])
 			valores = obtenerValores(host,i)
 			datos[i] = valores
 		else:
@@ -28,8 +32,10 @@ def modificar(variable=""):
 	if variable == "":
 		return redirect(url_for('index'))
 	else:
+		compuesto = leerCompuesto(host,variable)
+		greenT = leerGreenTire(host,variable)
 		var = leerString(host,variable,"Medida")
-		lista = [variable, var]
+		lista = [variable, var, greenT, compuesto]
 		valores = obtenerValores(host,variable)
 		datos = {variable: valores}
 	return render_template('modificar.html', i=lista, datos=datos, receta=variable)

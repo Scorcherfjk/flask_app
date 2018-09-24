@@ -15,6 +15,8 @@ MODIFICAR RECETA
             <div class="card-header h4 bg-dark text-light">
                 <a class="navbar-brand" disabled>MODIFICACIÓN DE RECETA</a>
                 <input class="btn btn-primary text-light float-right" type="submit" value="GUARDAR">
+                <input class="btn btn-danger text-light float-right" type="submit" value="ELIMINAR">
+                
             </div>
             <div class="card-body">
                 <div class="form-row">
@@ -29,7 +31,7 @@ MODIFICAR RECETA
                     </div>
                     <div class="form-group col-md">
                         <label for="inputPassword4">GREEN TIRE</label>
-                        <input type="text" class="form-control" name="GREENTIRE" id="GREENTIRE" value="GREEN TIRE">
+                        <input type="text" class="form-control" name="GREENTIRE" id="GREENTIRE" value="{{ i[2] }}">
                     </div>
                 </div>
                 <div class="form-row">
@@ -44,7 +46,7 @@ MODIFICAR RECETA
                 </div>
                 <div class="form-group">
                     <label for="inputEmail4">COMPUESTO A</label>
-                    <input type="text" class="form-control" name="COMPUESTOA" id="COMPUESTOA" value="COMPUESTO">
+                    <input type="text" class="form-control" name="COMPUESTOA" id="COMPUESTOA" value="{{ i[3][0] }}">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md">
@@ -70,7 +72,7 @@ MODIFICAR RECETA
                 </div>
                 <div class="form-group">
                     <label for="inputEmail4">COMPUESTO B</label>
-                    <input type="text" class="form-control" name="COMPUESTOB" id="COMPUESTOB" value="COMPUESTO">
+                    <input type="text" class="form-control" name="COMPUESTOB" id="COMPUESTOB" value="{{ i[3][1] }}">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md">

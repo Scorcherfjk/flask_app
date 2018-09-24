@@ -31,27 +31,27 @@ PLC
 			<tr>
 				<th class="align-middle" scope="row" rowspan="2">{{ i[1] }}</th>
 				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][15] }}</td>
-				<td class="align-middle" scope="row" rowspan="2">GREEN TIRE</td>
-				<td class="sin">COMPUESTO</td>
-				<td class="sin">{{ datos[i[0]][14] }}</td>
+				<td class="align-middle" scope="row" rowspan="2">{{ i[2] }}</td>
+				<td class="sin align-middle">{{ i[3][1] }}</td>
+				<td class="sin align-middle">{{ datos[i[0]][14] }}</td>
 				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][0] }}</td>
 				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][1] }}</td>
-				<td class="sin">{{ datos[i[0]][10] }}</td>
-				<td class="sin">{{ datos[i[0]][12] }}</td>
-				<td class="sin">{{ datos[i[0]][6] }}</td>
-				<td class="sin">{{ datos[i[0]][8] }}</td>
+				<td class="sin align-middle">{{ datos[i[0]][10] }}</td>
+				<td class="sin align-middle">{{ datos[i[0]][12] }}</td>
+				<td class="sin align-middle">{{ datos[i[0]][6] }}</td>
+				<td class="sin align-middle">{{ datos[i[0]][8] }}</td>
 				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][4] }}</td>
 				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][2] }}</td>
 				<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][3] }}</td>
 				<td class="align-middle" scope="row" rowspan="2"><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
 			</tr>
 			<tr>
-				<td>COMPUESTO</td>
-				<td>{{ datos[i[0]][13] }}</td>
-				<td>{{ datos[i[0]][9] }}</td>
-				<td>{{ datos[i[0]][11] }}</td>
-				<td>{{ datos[i[0]][5] }}</td>
-				<td>{{ datos[i[0]][7] }}</td>
+				<td class="align-middle">{{ i[3][0] }}</td>
+				<td class="align-middle">{{ datos[i[0]][13] }}</td>
+				<td class="align-middle">{{ datos[i[0]][9] }}</td>
+				<td class="align-middle">{{ datos[i[0]][11] }}</td>
+				<td class="align-middle">{{ datos[i[0]][5] }}</td>
+				<td class="align-middle">{{ datos[i[0]][7] }}</td>
 			</tr>
 		{% endfor %}
 		</tbody>
