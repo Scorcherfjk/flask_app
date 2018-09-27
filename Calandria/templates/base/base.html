@@ -32,8 +32,15 @@
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
 				<!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
-				<a href="/exportar" class="btn btn-outline-primary my-2 my-sm-0">Exportar</a>
-				<a href="/" class="btn btn-outline-danger my-2 my-sm-0">Salir</a>
+				<div class="dropdown">
+						<button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  OPCIONES
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						  <a class="dropdown-item" href="/exportar">Exportar</a>
+						  <a class="dropdown-item" href="/">Salir</a>
+						</div>
+					  </div>
 			</form>
 		</div>
 	</nav>
