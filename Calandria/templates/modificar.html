@@ -9,91 +9,101 @@ MODIFICAR RECETA
 
 
 <div class="container">
-    <br>
+    <br><br>
     <form action="/cambiar_receta" method="post">
         <div class="card border border-dark">
             <div class="card-header h4 bg-dark text-light">
                 <a class="navbar-brand" disabled>MODIFICACIÓN DE RECETA</a>
                 <input class="btn btn-primary text-light float-right" type="submit" value="GUARDAR">
-                <input class="btn btn-danger text-light float-right" type="submit" value="ELIMINAR">
-                
+                <a href="/eliminar/{{ receta }}" class="btn btn-danger text-light float-right">ELIMINAR</a>
+
             </div>
             <div class="card-body">
                 <div class="form-row">
-                        <input type="hidden" name="RECETA" value="{{ receta }}">
+                    <input type="hidden" name="RECETA" value="{{ receta }}">
                     <div class="form-group col-md">
-                        <label for="inputEmail4">PLIEGO DE GOMA</label>
+                        <label for="PLIEGODEGOMA">PLIEGO DE GOMA</label>
                         <input type="text" class="form-control" name="PLIEGODEGOMA" id="PLIEGODEGOMA" value="{{ i[1] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">PLIEGO DE MESA ALTA</label>
+                        <label for="PLIEGODEMESAALTA">PLIEGO DE MESA ALTA</label>
                         <input type="text" class="form-control" name="PLIEGODEMESAALTA" id="PLIEGODEMESAALTA" value="{{ datos[i[0]][15] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">GREEN TIRE</label>
+                        <label for="GREENTIRE">GREEN TIRE</label>
                         <input type="text" class="form-control" name="GREENTIRE" id="GREENTIRE" value="{{ i[2] }}">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md">
-                        <label for="inputEmail4">PRESIÓN DE RODILLO (PSI) +/- 10 PSI</label>
-                        <input type="text" class="form-control" name="PRESIÓNDERODILLO" id="PRESIÓNDERODILLO" value="{{ datos[i[0]][0] }}">
+                        <label for="PRESIÓNDERODILLO">PRESIÓN DE RODILLO (PSI) +/- 10 PSI</label>
+                        <input type="number" class="form-control" name="PRESIÓNDERODILLO" id="PRESIÓNDERODILLO" value="{{ datos[i[0]][0] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">VELOCIDAD MAXIMA (MPM)</label>
-                        <input type="text" class="form-control" name="VELOCIDADMAXIMA" id="VELOCIDADMAXIMA" value="{{ datos[i[0]][1] }}">
+                        <label for="VELOCIDADMAXIMA">VELOCIDAD MAXIMA (MPM)</label>
+                        <input type="number" class="form-control" name="VELOCIDADMAXIMA" id="VELOCIDADMAXIMA" value="{{ datos[i[0]][1] }}">
                     </div>
                 </div>
+                {% if i[3][0] == "0" %}
+                <input type="hidden" class="form-control" name="COMPUESTOA" id="COMPUESTOA" value="0">
+                <input type="hidden" class="form-control" name="CALIBRECALIENTEA" id="CALIBRECALIENTEA" value="0">
+                <input type="hidden" class="form-control" name="ANCHOSQUEEGEEA" id="ANCHOSQUEEGEEA" value="0">
+                <input type="hidden" class="form-control" name="ANCHOPLIEGOA" id="ANCHOPLIEGOA" value="0">
+                <input type="hidden" class="form-control" name="DIMAA" id="DIMAA" value="0">
+                <input type="hidden" class="form-control" name="DIMBA" id="DIMBA" value="0">
+                {% endif %}
+                {% if i[3][0] != "0" %}
                 <div class="form-group">
-                    <label for="inputEmail4">COMPUESTO A</label>
+                    <label for="COMPUESTOA">COMPUESTO A</label>
                     <input type="text" class="form-control" name="COMPUESTOA" id="COMPUESTOA" value="{{ i[3][0] }}">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md">
-                        <label for="inputEmail4">CALIBRE CALIENTE +/- 0.1mm</label>
+                        <label for="CALIBRECALIENTEA">CALIBRE CALIENTE +/- 0.1mm</label>
                         <input type="text" class="form-control" name="CALIBRECALIENTEA" id="CALIBRECALIENTEA" value="{{ datos[i[0]][13] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">ANCHO SQUEEGEE +/- 5mm </label>
-                        <input type="text" class="form-control" name="ANCHOSQUEEGEEA" id="ANCHOSQUEEGEEA" value="{{ datos[i[0]][9] }}">
+                        <label for="ANCHOSQUEEGEEA">ANCHO SQUEEGEE +/- 5mm </label>
+                        <input type="number" class="form-control" name="ANCHOSQUEEGEEA" id="ANCHOSQUEEGEEA" value="{{ datos[i[0]][9] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">ANCHO PLIEGO +/- 3mm </label>
-                        <input type="text" class="form-control" name="ANCHOPLIEGOA" id="ANCHOPLIEGOA" value="{{ datos[i[0]][11] }}">
+                        <label for="ANCHOPLIEGOA">ANCHO PLIEGO +/- 3mm </label>
+                        <input type="number" class="form-control" name="ANCHOPLIEGOA" id="ANCHOPLIEGOA" value="{{ datos[i[0]][11] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">DIM A +/- 5mm</label>
-                        <input type="text" class="form-control" name="DIMAA" id="DIMAA" value="{{ datos[i[0]][5] }}">
+                        <label for="DIMAA">DIM A +/- 5mm</label>
+                        <input type="number" class="form-control" name="DIMAA" id="DIMAA" value="{{ datos[i[0]][5] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">DIM B +/- 5mm </label>
-                        <input type="text" class="form-control" name="DIMBA" id="DIMBA" value="{{ datos[i[0]][7] }}">
+                        <label for="DIMBA">DIM B +/- 5mm </label>
+                        <input type="number" class="form-control" name="DIMBA" id="DIMBA" value="{{ datos[i[0]][7] }}">
                     </div>
                 </div>
+                {% endif %}
                 <div class="form-group">
-                    <label for="inputEmail4">COMPUESTO B</label>
+                    <label for="COMPUESTOB">COMPUESTO B</label>
                     <input type="text" class="form-control" name="COMPUESTOB" id="COMPUESTOB" value="{{ i[3][1] }}">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md">
-                        <label for="inputEmail4">CALIBRE CALIENTE +/- 0.1mm</label>
+                        <label for="CALIBRECALIENTEB">CALIBRE CALIENTE +/- 0.1mm</label>
                         <input type="text" class="form-control" name="CALIBRECALIENTEB" id="CALIBRECALIENTEB" value="{{ datos[i[0]][14] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">ANCHO SQUEEGEE +/- 5mm </label>
-                        <input type="text" class="form-control" name="ANCHOSQUEEGEEB" id="ANCHOSQUEEGEEB" value="{{ datos[i[0]][10] }}">
+                        <label for="ANCHOSQUEEGEEB">ANCHO SQUEEGEE +/- 5mm </label>
+                        <input type="number" class="form-control" name="ANCHOSQUEEGEEB" id="ANCHOSQUEEGEEB" value="{{ datos[i[0]][10] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">ANCHO PLIEGO +/- 3mm </label>
-                        <input type="text" class="form-control" name="ANCHOPLIEGOB" id="ANCHOPLIEGOB" value="{{ datos[i[0]][12] }}">
+                        <label for="ANCHOPLIEGOB">ANCHO PLIEGO +/- 3mm </label>
+                        <input type="number" class="form-control" name="ANCHOPLIEGOB" id="ANCHOPLIEGOB" value="{{ datos[i[0]][12] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">DIM A +/- 5mm </label>
-                        <input type="text" class="form-control" name="DIMAB" id="DIMAB" value="{{ datos[i[0]][6] }}">
+                        <label for="DIMAB">DIM A +/- 5mm </label>
+                        <input type="number" class="form-control" name="DIMAB" id="DIMAB" value="{{ datos[i[0]][6] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">DIM B +/- 5mm </label>
-                        <input type="text" class="form-control" name="DIMBB" id="DIMBB" value="{{ datos[i[0]][8] }}">
+                        <label for="DIMBB">DIM B +/- 5mm </label>
+                        <input type="number" class="form-control" name="DIMBB" id="DIMBB" value="{{ datos[i[0]][8] }}">
                     </div>
                 </div>
             </div>
