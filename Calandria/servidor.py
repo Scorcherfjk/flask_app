@@ -1,15 +1,22 @@
-from flask import Flask, request, render_template, redirect, url_for, request
+from io import BytesIO
+from flask import Flask, request, render_template
+from flask import redirect, url_for, request, send_file
 from conexiones import obtenerValores, leerString, cambioTexto
-from conexiones import listaASCII, nuevaReceta, cambiarReceta
-from conexiones import leerCompuesto, leerGreenTire
+from conexiones import nuevaReceta, cambiarReceta, eliminarReceta, insert, conexion
+from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel
 
 app = Flask(__name__)
-
 host = "192.168.1.35"
+cursor, cnxn = conexion()
 
 #############################################################################################################################
 
 @app.route('/')
+def login():
+	return render_template('login.html')
+#############################################################################################################################
+
+@app.route('/inicio')
 def index():
 	lista, datos = [], {}
 	for i in range(0,299):
@@ -20,8 +27,6 @@ def index():
 			lista.append([i, var, greenT, compuesto])
 			valores = obtenerValores(host,i)
 			datos[i] = valores
-		else:
-			break
 	return render_template('index.html', lista=lista, datos=datos)
 
 #############################################################################################################################
@@ -35,8 +40,8 @@ def modificar(variable=""):
 		compuesto = leerCompuesto(host,variable)
 		greenT = leerGreenTire(host,variable)
 		var = leerString(host,variable,"Medida")
-		lista = [variable, var, greenT, compuesto]
 		valores = obtenerValores(host,variable)
+		lista = [variable, var, greenT, compuesto]
 		datos = {variable: valores}
 	return render_template('modificar.html', i=lista, datos=datos, receta=variable)
 
@@ -48,8 +53,26 @@ def nueva_receta():
 
 #############################################################################################################################
 
+@app.route('/nueva_receta_simple')
+def nueva_receta_simple():
+	return render_template('nueva_receta_simple.html')
+
+#############################################################################################################################
+
+@app.route('/eliminar/')
+@app.route('/eliminar/<variable>')
+def eliminar(variable=""):
+	if variable == "":
+		return redirect(url_for('index'))
+	else:
+		eliminarReceta(host, variable)
+	return redirect(url_for('index'))
+
+#############################################################################################################################
+
 @app.route('/grabar_receta',methods=['POST'])
 def grabar_receta():
+	insert(cursor, cnxn, request)
 	nuevaReceta(host, request)
 	return redirect(url_for('index'))
 
@@ -57,8 +80,17 @@ def grabar_receta():
 
 @app.route('/cambiar_receta',methods=['POST'])
 def cambiar_receta():
+	insert(cursor, cnxn, request)
 	cambiarReceta(host, request)
 	return redirect(url_for('index'))
+
+#############################################################################################################################
+
+@app.route('/exportar')
+def exportar():
+	salida = BytesIO()
+	output = exportarExcel(host, salida)
+	return send_file(output, attachment_filename="archivo.xlsx", as_attachment=True)
 
 #############################################################################################################################
 

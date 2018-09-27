@@ -13,6 +13,32 @@ def limpiatexto(string):
         resultado.append(listaASCII(i.strip()))
     return resultado[:5]
 
+def limpiatextoC(lista):
+    resultado = []
+    for i in lista:
+        resultado.append(listaASCII(i.strip()))
+    return resultado[:5]
+
+def conexion():
+    import pyodbc 
+
+    server = 'DESKTOP-QV8E63C' 
+    database = 'squeegee' 
+    username = 'sa' 
+    password = 'Controlsi' 
+
+    cnxn = pyodbc.connect('DRIVER=SQL Server;SERVER={0};DATABASE={1};UID={2};PWD={3}'
+    .format(server,database,username,password))
+    cursor = cnxn.cursor()
+
+    cursor.execute("SELECT @@version;") 
+    row = cursor.fetchone() 
+    while row: 
+        print(row[0]) 
+        row = cursor.fetchone()
+
+    return cursor, cnxn
+
 #############################################################################################################################
 
 def DINT(host, tags):
@@ -53,13 +79,13 @@ def obtenerValores(host, i):
     tags=[
             "RecetasPL[{}].PresionRodillo".format(i),
             "RecetasPL[{}].VelocidadMax".format(i),
+            "RecetasPL[{}].Dif_LinerToegard_Yellow".format(i),
             "RecetasPL[{}].Dif_LinerToegard_Red".format(i),
             "RecetasPL[{}].Dif_LinerToegard_Blue".format(i),
-            "RecetasPL[{}].Dif_LinerToegard_Yellow".format(i),
-            "RecetasPL[{}].DIM_A[0]".format(i),
-            "RecetasPL[{}].DIM_A[1]".format(i),
-            "RecetasPL[{}].DIM_B[0]".format(i),
-            "RecetasPL[{}].DIM_B[1]".format(i),
+            "RecetasPL[{}].DIM_A_Comp_A".format(i),
+            "RecetasPL[{}].DIM_A_Comp_B".format(i),
+            "RecetasPL[{}].DIM_B_Comp_A".format(i),
+            "RecetasPL[{}].DIM_B_Comp_B".format(i),
             "RecetasPL[{}].AnchoSqueegee_Comp_A".format(i),
             "RecetasPL[{}].AnchoSqueegee_Comp_B".format(i),
             "RecetasPL[{}].AnchoPliego_Comp_A".format(i),
@@ -76,6 +102,9 @@ def obtenerValores(host, i):
     lista.append(a)
     lista[13] = float("{0:.2f}".format(lista[13]))
     lista[14] = float("{0:.2f}".format(lista[14]))
+    lista[2] = lista[8] - lista[7]
+    lista[3] = lista[2] * 2 + lista[10]
+    lista[4] = (lista[12] - lista[3]) / 2
     return lista
 
 #############################################################################################################################
@@ -117,16 +146,17 @@ def nuevaReceta(host, request):
     cambioTexto(host,i,"Medida",listaASCII(request.form["PLIEGODEGOMA"]))
     cambioTexto(host,i,"PliegoMesaAlta",listaASCII(request.form["PLIEGODEMESAALTA"]))
     escribirGreenTire(host,i,request.form["GREENTIRE"])
+    escribirCompuesto(host,i,[request.form["COMPUESTOA"],request.form["COMPUESTOB"]])
 
     tags=[
            "RecetasPL[{}].PresionRodillo=(DINT){}".format(i,int(request.form["PRESIÓNDERODILLO"])),
            "RecetasPL[{}].VelocidadMax=(DINT){}".format(i,int(request.form["VELOCIDADMAXIMA"])),
-           "RecetasPL[{}].DIM_A[0]=(DINT){}".format(i,int(request.form["DIMBB"])),
-           "RecetasPL[{}].DIM_A[1]=(DINT){}".format(i,int(request.form["DIMAA"])),
-           "RecetasPL[{}].DIM_B[0]=(DINT){}".format(i,int(request.form["DIMBB"])),
-           "RecetasPL[{}].DIM_B[1]=(DINT){}".format(i,int(request.form["DIMBA"])),
-           "RecetasPL[{}].AnchoSqueegee_Comp_B=(DINT){}".format(i,int(request.form["ANCHOSQUEEGEEB"])),
+           "RecetasPL[{}].DIM_A_Comp_A=(DINT){}".format(i,int(request.form["DIMAA"])),
+           "RecetasPL[{}].DIM_A_Comp_B=(DINT){}".format(i,int(request.form["DIMAB"])),
+           "RecetasPL[{}].DIM_B_Comp_A=(DINT){}".format(i,int(request.form["DIMBA"])),
+           "RecetasPL[{}].DIM_B_Comp_B=(DINT){}".format(i,int(request.form["DIMBB"])),
            "RecetasPL[{}].AnchoSqueegee_Comp_A=(DINT){}".format(i,int(request.form["ANCHOSQUEEGEEA"])),
+           "RecetasPL[{}].AnchoSqueegee_Comp_B=(DINT){}".format(i,int(request.form["ANCHOSQUEEGEEB"])),
            "RecetasPL[{}].AnchoPliego_Comp_A=(DINT){}".format(i,int(request.form["ANCHOPLIEGOA"])),
            "RecetasPL[{}].AnchoPliego_Comp_B=(DINT){}".format(i,int(request.form["ANCHOPLIEGOB"])),
            "RecetasPL[{}].CalibreCaliente_Comp_A=(REAL){}".format(i,float(request.form["CALIBRECALIENTEA"])),
@@ -148,16 +178,17 @@ def cambiarReceta(host, request):
     cambioTexto(host,i,"Medida",listaASCII(request.form["PLIEGODEGOMA"]))
     cambioTexto(host,i,"PliegoMesaAlta",listaASCII(request.form["PLIEGODEMESAALTA"]))
     escribirGreenTire(host,i,request.form["GREENTIRE"])
+    escribirCompuesto(host,i,[request.form["COMPUESTOA"],request.form["COMPUESTOB"]])
 
     tags=[
            "RecetasPL[{}].PresionRodillo=(DINT){}".format(i,int(request.form["PRESIÓNDERODILLO"])),
            "RecetasPL[{}].VelocidadMax=(DINT){}".format(i,int(request.form["VELOCIDADMAXIMA"])),
-           "RecetasPL[{}].DIM_A[0]=(DINT){}".format(i,int(request.form["DIMBB"])),
-           "RecetasPL[{}].DIM_A[1]=(DINT){}".format(i,int(request.form["DIMAA"])),
-           "RecetasPL[{}].DIM_B[0]=(DINT){}".format(i,int(request.form["DIMBB"])),
-           "RecetasPL[{}].DIM_B[1]=(DINT){}".format(i,int(request.form["DIMBA"])),
-           "RecetasPL[{}].AnchoSqueegee_Comp_B=(DINT){}".format(i,int(request.form["ANCHOSQUEEGEEB"])),
+           "RecetasPL[{}].DIM_A_Comp_A=(DINT){}".format(i,int(request.form["DIMBA"])),
+           "RecetasPL[{}].DIM_A_Comp_B=(DINT){}".format(i,int(request.form["DIMAB"])),
+           "RecetasPL[{}].DIM_B_Comp_A=(DINT){}".format(i,int(request.form["DIMBA"])),
+           "RecetasPL[{}].DIM_B_Comp_B=(DINT){}".format(i,int(request.form["DIMBB"])),
            "RecetasPL[{}].AnchoSqueegee_Comp_A=(DINT){}".format(i,int(request.form["ANCHOSQUEEGEEA"])),
+           "RecetasPL[{}].AnchoSqueegee_Comp_B=(DINT){}".format(i,int(request.form["ANCHOSQUEEGEEB"])),
            "RecetasPL[{}].AnchoPliego_Comp_A=(DINT){}".format(i,int(request.form["ANCHOPLIEGOA"])),
            "RecetasPL[{}].AnchoPliego_Comp_B=(DINT){}".format(i,int(request.form["ANCHOPLIEGOB"])),
            "RecetasPL[{}].CalibreCaliente_Comp_A=(REAL){}".format(i,float(request.form["CALIBRECALIENTEA"])),
@@ -170,6 +201,38 @@ def cambiarReceta(host, request):
 
 #############################################################################################################################
    
+def eliminarReceta(host, receta):
+    lista = []
+    i = int(receta)
+    from cpppo.server.enip.client import connector
+    from cpppo.server.enip import client
+
+    cambioTexto(host,i,"Medida",listaASCII(""))
+    cambioTexto(host,i,"PliegoMesaAlta",listaASCII(""))
+    escribirGreenTire(host,i,"")
+    escribirCompuesto(host,i,["",""])
+
+    tags=[
+           "RecetasPL[{}].PresionRodillo=(DINT){}".format(i,0),
+           "RecetasPL[{}].VelocidadMax=(DINT){}".format(i,0),
+           "RecetasPL[{}].DIM_A_Comp_A=(DINT){}".format(i,0),
+           "RecetasPL[{}].DIM_A_Comp_B=(DINT){}".format(i,0),
+           "RecetasPL[{}].DIM_B_Comp_A=(DINT){}".format(i,0),
+           "RecetasPL[{}].DIM_B_Comp_B=(DINT){}".format(i,0),
+           "RecetasPL[{}].AnchoSqueegee_Comp_A=(DINT){}".format(i,0),
+           "RecetasPL[{}].AnchoSqueegee_Comp_B=(DINT){}".format(i,0),
+           "RecetasPL[{}].AnchoPliego_Comp_A=(DINT){}".format(i,0),
+           "RecetasPL[{}].AnchoPliego_Comp_B=(DINT){}".format(i,0),
+           "RecetasPL[{}].CalibreCaliente_Comp_A=(REAL){}".format(i,0),
+           "RecetasPL[{}].CalibreCaliente_Comp_B=(REAL){}".format(i,0)
+         ]
+    with connector( host=host ) as conn:
+        for index,descr,op,reply,status,value in conn.pipeline(operations=client.parse_operations( tags ), depth=2 ):
+            lista.append(value)
+    return lista
+
+#############################################################################################################################
+     
 def escribirGreenTire(host,elemento,texto):
     from cpppo.server.enip.client import connector
     from cpppo.server.enip import client
@@ -245,7 +308,7 @@ def escribirCompuesto(host,elemento,texto):
     from cpppo.server.enip.client import connector
     from cpppo.server.enip import client
     
-    greenTire = limpiatexto(texto)
+    greenTire = limpiatextoC(texto)
     
     tags = []
     for indice, ASCII in enumerate(greenTire):
@@ -259,3 +322,95 @@ def escribirCompuesto(host,elemento,texto):
             resultado.append(value)
         
     return resultado, tags
+
+#############################################################################################################################
+
+def exportarExcel(host, output):
+    import pandas as pd
+
+    lista = []
+    for i in range(0,299):
+        var = leerString(host,i,"Medida")
+        if len(var) > 1:
+            PliegoMesaAlta = leerString(host,i,"PliegoMesaAlta")
+            compuesto = leerCompuesto(host,i)
+            greenT = leerGreenTire(host,i)
+            valores = obtenerValores(host,i)
+
+            lista.append([i, var, PliegoMesaAlta, greenT, valores[0], valores[1], 
+            compuesto[0], valores[13], valores[9], valores[11], valores[5], valores[7],
+            compuesto[1], valores[14], valores[10], valores[12], valores[6], valores[8],
+            valores[2], valores[3], valores[4]])
+
+
+    df_1 = pd.DataFrame(data=lista,columns=[
+        "nro_columna","PliegoGoma","PliegoMesaAlta","GreenTire", "PresionRodillo","VelocidadMax",
+        "CompuestoA","CalibreCaliente_Comp_A","AnchoSqueegee_Comp_A","AnchoPliego_Comp_A","DIM_A_Comp_A","DIM_B_Comp_A",
+        "CompuestoB","CalibreCaliente_Comp_B","AnchoSqueegee_Comp_B","AnchoPliego_Comp_B","DIM_A_Comp_B","DIM_B_Comp_B",
+        "Dif_LinerToegard_Yellow","Dif_LinerToegard_Red","Dif_LinerToegard_Blue"
+    ])
+
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df_1.to_excel(writer, startrow = 0, merge_cells = False, sheet_name = "Sheet_1")
+    workbook = writer.book
+    worksheet = writer.sheets["Sheet_1"]
+    formato = workbook.add_format()
+    formato.set_bg_color('#eeeeee')
+    worksheet.set_column(0,9,28)
+
+    writer.close()
+    output.seek(0)
+
+    return output
+
+#############################################################################################################################
+
+def insert(cursor, cnxn, request):
+
+    # Campos estandar
+    pliego_goma = request.form["PLIEGODEGOMA"]
+    pliego_mesa_alta = request.form["PLIEGODEMESAALTA"]
+    green_tire = request.form["GREENTIRE"]
+    presion_rodillo = float(request.form["PRESIÓNDERODILLO"])
+    velocidad_maxima = float(request.form["VELOCIDADMAXIMA"])
+
+    # Campos del compuesto A
+    compuesto_a = request.form["COMPUESTOA"]
+    calibre_caliente_a = float(request.form["CALIBRECALIENTEA"])
+    ancho_squeegee_a = float(request.form["ANCHOSQUEEGEEA"])
+    ancho_pliego_a = float(request.form["ANCHOPLIEGOA"])
+    dima_a = float(request.form["DIMBA"])
+    dimb_a = float(request.form["DIMBA"])
+
+    # Campos del compuesto B
+    compuesto_b = request.form["COMPUESTOB"]
+    calibre_caliente_b = float(request.form["CALIBRECALIENTEB"])
+    ancho_squeegee_b = float(request.form["ANCHOSQUEEGEEB"])
+    ancho_pliego_b = float(request.form["ANCHOPLIEGOB"])
+    dima_b = float(request.form["DIMAB"])
+    dimb_b = float(request.form["DIMBB"])
+
+    # Diferencias
+    diferencia_yellow = dimb_b - dimb_a
+    diferencia_red = diferencia_yellow * 2 + ancho_squeegee_b
+    diferencia_blue = (ancho_pliego_b - diferencia_red) / 2
+
+    sql = """INSERT INTO [squeegee].[dbo].[calandria4r]
+           ([pliego_goma],[pliego_mesa_alta],[green_tire],[presion_rodillo],[velocidad_maxima]
+           ,[compuesto_a],[calibre_caliente_a],[ancho_squeegee_a],[ancho_pliego_a],[dima_a],[dimb_a]
+           ,[compuesto_b],[calibre_caliente_b],[ancho_squeegee_b],[ancho_pliego_b],[dima_b],[dimb_b]
+           ,[diferencia_yellow],[diferencia_red],[diferencia_blue])
+        VALUES
+           ('{0}','{1}','{2}',{3},{4},
+           '{5}',{6},{7},{8},{9},{10},
+           '{11}',{12},{13},{14},{15},{16},
+           {17},{18},{19})""".format(
+            pliego_goma,pliego_mesa_alta,green_tire,presion_rodillo,velocidad_maxima,
+            compuesto_a,calibre_caliente_a,ancho_squeegee_a,ancho_pliego_a,dima_a,dimb_a,
+            compuesto_b,calibre_caliente_b,ancho_squeegee_b,ancho_pliego_b,dima_b,dimb_b,
+            diferencia_yellow,diferencia_red,diferencia_blue)
+    
+
+
+    cursor.execute(sql) 
+    cnxn.commit()
