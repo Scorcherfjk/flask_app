@@ -4,7 +4,7 @@ from flask import Flask, request, render_template, session
 from flask import redirect, url_for, request, send_file
 from conexiones import obtenerValores, leerString, cambioTexto
 from conexiones import nuevaReceta, cambiarReceta, eliminarReceta, insert, conexion
-from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel
+from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel, sincro_to_db
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
@@ -32,7 +32,6 @@ def entrada():
 
 @app.route('/inicio')
 def index():
-
 	lista, datos = [], {}
 	for i in range(1,300):
 		var = leerString(host,i,"Medida")
@@ -109,6 +108,7 @@ def db_to_plc():
 
 @app.route('/plc_to_db')
 def plc_to_db():
+	sincro_to_db(host, cursor, cnxn)
 	return redirect(url_for('index'))
 
 #############################################################################################################################
@@ -117,7 +117,8 @@ def plc_to_db():
 def exportar():
 	salida = BytesIO()
 	output = exportarExcel(host, salida)
-	return send_file(output, attachment_filename="archivo.xlsx", as_attachment=True)
+	archivo = "nombre_archivo"
+	return send_file(output, attachment_filename=archivo+".xlsx", as_attachment=True)
 
 #############################################################################################################################
 

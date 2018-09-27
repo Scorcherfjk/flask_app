@@ -41,6 +41,25 @@ def conexion():
 
 #############################################################################################################################
 
+def matriz(host):
+    lista = []
+    for i in range(0,299):
+        var = leerString(host,i,"Medida")
+        if len(var) > 1:
+            PliegoMesaAlta = leerString(host,i,"PliegoMesaAlta")
+            compuesto = leerCompuesto(host,i)
+            greenT = leerGreenTire(host,i)
+            valores = obtenerValores(host,i)
+
+            lista.append([i, var, PliegoMesaAlta, greenT, valores[0], valores[1], 
+            compuesto[0], valores[13], valores[9], valores[11], valores[5], valores[7],
+            compuesto[1], valores[14], valores[10], valores[12], valores[6], valores[8],
+            valores[2], valores[3], valores[4]])
+
+    return lista
+
+#############################################################################################################################
+
 def DINT(host, tags):
     from cpppo.server.enip.client import connector
     from cpppo.server.enip import client
@@ -328,20 +347,7 @@ def escribirCompuesto(host,elemento,texto):
 def exportarExcel(host, output):
     import pandas as pd
 
-    lista = []
-    for i in range(0,299):
-        var = leerString(host,i,"Medida")
-        if len(var) > 1:
-            PliegoMesaAlta = leerString(host,i,"PliegoMesaAlta")
-            compuesto = leerCompuesto(host,i)
-            greenT = leerGreenTire(host,i)
-            valores = obtenerValores(host,i)
-
-            lista.append([i, var, PliegoMesaAlta, greenT, valores[0], valores[1], 
-            compuesto[0], valores[13], valores[9], valores[11], valores[5], valores[7],
-            compuesto[1], valores[14], valores[10], valores[12], valores[6], valores[8],
-            valores[2], valores[3], valores[4]])
-
+    lista = matriz(host)
 
     df_1 = pd.DataFrame(data=lista,columns=[
         "nro_columna","PliegoGoma","PliegoMesaAlta","GreenTire", "PresionRodillo","VelocidadMax",
@@ -365,6 +371,43 @@ def exportarExcel(host, output):
 
 #############################################################################################################################
 
+def sincro_to_db(host, cursor, cnxn):
+    
+    listas = matriz(host)
+    for lista in listas:
+        sql = """UPDATE [squeegee].[dbo].[recetas]
+                SET [pliego_goma] = '{0}'
+                    ,[pliego_mesa_alta] = '{1}'
+                    ,[green_tire] = '{2}'
+                    ,[presion_rodillo] = {3}
+                    ,[velocidad_maxima] = {4}
+                    ,[compuesto_a] = '{5}'
+                    ,[calibre_caliente_a] = {6}
+                    ,[ancho_squeegee_a] = {7}
+                    ,[ancho_pliego_a] = {8}
+                    ,[dima_a] = {9}
+                    ,[dimb_a] = {10}
+                    ,[compuesto_b] = '{11}'
+                    ,[calibre_caliente_b] = {12}
+                    ,[ancho_squeegee_b] = {13}
+                    ,[ancho_pliego_b] = {14}
+                    ,[dima_b] = {15}
+                    ,[dimb_b] = {16}
+                    ,[diferencia_yellow] = {17}
+                    ,[diferencia_red] = {18}
+                    ,[diferencia_blue] = {19}
+                WHERE [id] = {20} """.format(
+                lista[1],lista[2],lista[3],lista[4],lista[5],
+                lista[6],lista[7],lista[8],lista[9],lista[10],lista[11], 
+                lista[12],lista[13],lista[14],lista[15],lista[16],lista[17],
+                lista[18],lista[19],lista[20],lista[0]
+                )
+        cursor.execute(sql) 
+        cnxn.commit()
+
+#############################################################################################################################
+
+#############################################################################################################################
 def insert(cursor, cnxn, request):
 
     # Campos estandar
