@@ -132,7 +132,7 @@ def cambioTexto(host,elemento,columna,ASCII):
 #############################################################################################################################
     
 def nuevaReceta(host, request):
-    for l in range(0,299):
+    for l in range(1,300):
         var = leerString(host,l,"Medida")
         if len(var) > 1:
             pass

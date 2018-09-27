@@ -29,18 +29,29 @@
 						NUEVA RECETA 
 					</a>
 				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						SINCRONIZAR
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="#">Base de Datos a PLC</a>
+						<a class="dropdown-item" href="#">PLC a Base de Datos</a>
+					</div>
+				</li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
 				<!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
 				<div class="dropdown">
-						<button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						  OPCIONES
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						  <a class="dropdown-item" href="/exportar">Exportar</a>
-						  <a class="dropdown-item" href="/">Salir</a>
-						</div>
-					  </div>
+					<button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+					 aria-haspopup="true" aria-expanded="false">
+						OPCIONES
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item" href="/exportar">Exportar</a>
+						<a class="dropdown-item" href="/salir">Salir</a>
+					</div>
+				</div>
 			</form>
 		</div>
 	</nav>
@@ -49,7 +60,7 @@
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
 	 aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalCenterTitle">Seleccione el tipo de Receta</h5>
@@ -58,7 +69,7 @@
 					</button>
 				</div>
 				<div class="modal-footer">
-					<a href="/nueva_receta_simple" class="btn btn-primary" >RECETA DE 1 COMPUESTO</a>
+					<a href="/nueva_receta_simple" class="btn btn-primary">RECETA DE 1 COMPUESTO</a>
 					<a href="/nueva_receta" class="btn btn-primary">RECETA DE 2 COMPUESTOS</a>
 				</div>
 			</div>

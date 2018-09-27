@@ -29,6 +29,7 @@ PLC
 		</thead>
 		<tbody>
 		{% for i in lista %}
+		{% if i[3][0] != "0" %}
 			<tr>
 				<!-- PLIEGO DE GOMA -->
 				<th class="align-middle" scope="row" rowspan="2">{{ i[1] }}</th>
@@ -61,7 +62,6 @@ PLC
 				<!-- BOTON -->
 				<td class="align-middle" scope="row" rowspan="2"><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
 			</tr>
-		{% if i[3][0] != "0" %}
 			<tr>
 				<!-- COMPUESTO A -->
 				<td class="align-middle">{{ i[3][0] }}</td>
@@ -75,6 +75,39 @@ PLC
 				<td class="align-middle">{{ datos[i[0]][5] }}</td>
 				<!-- DIM B A -->
 				<td class="align-middle">{{ datos[i[0]][7] }}</td>
+			</tr>
+		{% else %}
+		<tr>
+				<!-- PLIEGO DE GOMA -->
+				<th class="align-middle" scope="row" >{{ i[1] }}</th>
+				<!-- PLIEGO DE MESA ALTA -->				
+				<td class="align-middle" scope="row" >{{ datos[i[0]][15] }}</td>
+				<!-- GREEN TIRE -->				
+				<td class="align-middle" scope="row" >{{ i[2] }}</td>
+				<!-- COMPUESTO B -->				
+				<td class="align-middle" scope="row" >{{ i[3][1] }}</td>
+				<!-- CALIBRE CALIENTE B -->				
+				<td class="align-middle" scope="row" >{{ datos[i[0]][14] }}</td>
+				<!-- PRESIÓN DE RODILLO -->				
+				<td class="align-middle" scope="row" >{{ datos[i[0]][0] }}</td>
+				<!-- VELOCIDAD MAXIMA -->				
+				<td class="align-middle" scope="row" >{{ datos[i[0]][1] }}</td>
+				<!-- ANCHO SQUEEGEE B -->				
+				<td class="align-middle" scope="row" >{{ datos[i[0]][10] }}</td>
+				<!-- ANCHO PLIEGO B -->				
+				<td class="align-middle" scope="row" >{{ datos[i[0]][12] }}</td>
+				<!-- DIM A B -->				
+				<td class="align-middle" scope="row" >{{ datos[i[0]][6] }}</td>
+				<!-- DIM B B -->				
+				<td class="align-middle" scope="row" >{{ datos[i[0]][8] }}</td>
+				<!-- YELLOW -->				
+				<td class="align-middle" scope="row" >N/A</td>
+				<!-- RED -->				
+				<td class="align-middle" scope="row" >N/A</td>
+				<!-- BLUE -->				
+				<td class="align-middle" scope="row" >N/A</td>
+				<!-- BOTON -->				
+				<td class="align-middle" scope="row" ><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
 			</tr>
 		{% endif %}
 		{% endfor %}
