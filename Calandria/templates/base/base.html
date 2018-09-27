@@ -12,8 +12,8 @@
 
 <body id="fondo">
 	<img src="{{ url_for('static',filename='image/logo.jpg') }}" alt="logo goodyear">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<a class="navbar-brand" href="/">GoodYear</a>
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #133984">
+		<a class="navbar-brand" href="/inicio"><img src="{{ url_for('static',filename='image/logo2.jpg') }}" alt="" srcset=""></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 		 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -22,19 +22,43 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active">
-					<a class="nav-link" href="/">INICIO<span class="sr-only">(current)</span></a>
+					<a class="nav-link" href="/inicio">INICIO<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/nueva_receta">NUEVA RECETA</a>
+					<a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">
+						NUEVA RECETA 
+					</a>
 				</li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+				<!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
+				<a href="/exportar" class="btn btn-outline-primary my-2 my-sm-0">Exportar</a>
 			</form>
 		</div>
 	</nav>
-	
+	<!-- Button trigger modal -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+	 aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>algo algo algo</p>
+				</div>
+				<div class="modal-footer">
+					<a href="/nueva_receta_simple" class="btn btn-primary" >RECETA DE 1 COMPUESTO</a>
+					<a href="/nueva_receta" class="btn btn-primary">RECETA DE 2 COMPUESTOS</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	{% block content %}
 
