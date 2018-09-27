@@ -14,6 +14,16 @@ cursor, cnxn = conexion()
 @app.route('/')
 def login():
 	return render_template('login.html')
+
+#############################################################################################################################
+
+@app.route('/inicio', methods=['POST'])
+def entrada():
+	if request.form["user"] == "admin" and request.form["passwd"] == "12345":
+		return redirect(url_for('index'))
+	else:
+		return redirect(url_for('login'))
+		
 #############################################################################################################################
 
 @app.route('/inicio')
