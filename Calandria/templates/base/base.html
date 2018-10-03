@@ -7,13 +7,17 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
 	<link rel="shortcut icon" href="{{ url_for('static',filename='image/favicon.ico') }}" type="image/x-icon">
+	<script src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
+	<script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+	<script src="{{ url_for('static',filename='js/main.js') }}"></script>
 	<title> {% block title%} {% endblock %}</title>
 </head>
 
 <body id="fondo">
-	<img id="gy" src="{{ url_for('static',filename='image/logo.jpg') }}" alt="logo goodyear">
+	<div class="loader-page"></div>
+	<img class="gy" src="{{ url_for('static',filename='image/logo.jpg') }}" alt="logo goodyear">
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #133984">
-		<a class="nav-link" href="/inicio"><img src="{{ url_for('static',filename='image/logo2.jpg') }}" alt="logo de goodyear"></a>
+		<a class="nav-link" href="/inicio"><img id="gy" class="gy" src="{{ url_for('static',filename='image/logo2.jpg') }}" alt="logo de goodyear"></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 		 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -80,9 +84,6 @@
 
 	{% endblock %}
 
-	<script src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
-	<script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
-	<script src="{{ url_for('static',filename='js/main.js') }}"></script>
 </body>
 
 </html>
