@@ -2,9 +2,13 @@ def listaASCII(texto):
     a = [ord(i) for i in texto]
     return a
 
+#############################################################################################################################
+
 def listaSTRING(ASCII):
     a = ''.join(chr(i) for i in ASCII)
     return a
+
+#############################################################################################################################
 
 def limpiatexto(string):
     lista = string.split(",")
@@ -13,11 +17,15 @@ def limpiatexto(string):
         resultado.append(listaASCII(i.strip()))
     return resultado[:5]
 
+#############################################################################################################################
+
 def limpiatextoC(lista):
     resultado = []
     for i in lista:
         resultado.append(listaASCII(i.strip()))
     return resultado[:5]
+
+#############################################################################################################################
 
 def conexion():
     import pyodbc 
@@ -43,7 +51,7 @@ def conexion():
 
 def matriz(host):
     lista = []
-    for i in range(0,299):
+    for i in range(1,300):
         var = leerString(host,i,"Medida")
         if len(var) > 1:
             PliegoMesaAlta = leerString(host,i,"PliegoMesaAlta")
@@ -146,7 +154,6 @@ def cambioTexto(host,elemento,columna,ASCII):
             resultado.append(value)
         
     return resultado, tags
-
 
 #############################################################################################################################
     
@@ -349,12 +356,16 @@ def exportarExcel(host, output):
 
     lista = matriz(host)
 
-    df_1 = pd.DataFrame(data=lista,columns=[
+    df = pd.DataFrame(data=lista,columns=[
         "nro_columna","PliegoGoma","PliegoMesaAlta","GreenTire", "PresionRodillo","VelocidadMax",
         "CompuestoA","CalibreCaliente_Comp_A","AnchoSqueegee_Comp_A","AnchoPliego_Comp_A","DIM_A_Comp_A","DIM_B_Comp_A",
         "CompuestoB","CalibreCaliente_Comp_B","AnchoSqueegee_Comp_B","AnchoPliego_Comp_B","DIM_A_Comp_B","DIM_B_Comp_B",
         "Dif_LinerToegard_Yellow","Dif_LinerToegard_Red","Dif_LinerToegard_Blue"
     ])
+
+    columnas = df.columns.tolist()
+    columnas.pop(0)
+    df_1 = pd.DataFrame(data=df[columnas], index=df.nro_columna)
 
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
     df_1.to_excel(writer, startrow = 0, merge_cells = False, sheet_name = "Sheet_1")
@@ -375,7 +386,7 @@ def sincro_to_db(host, cursor, cnxn):
     
     listas = matriz(host)
     for lista in listas:
-        sql = """UPDATE [squeegee].[dbo].[recetas]
+        sql = """UPDATE [squeegee].[dbo].[receta]
                 SET [pliego_goma] = '{0}'
                     ,[pliego_mesa_alta] = '{1}'
                     ,[green_tire] = '{2}'
@@ -404,8 +415,43 @@ def sincro_to_db(host, cursor, cnxn):
                 )
         cursor.execute(sql) 
         cnxn.commit()
+    print("carga lista")
 
 #############################################################################################################################
+
+def sincro_to_plc(host, cursor, cnxn):
+    lista=[]
+    cursor.execute("SELECT * FROM [squeegee].[dbo].[receta]")
+    row = cursor.fetchone() 
+    for z in range(1,300): 
+        i = int(row[0])
+        from cpppo.server.enip.client import connector
+        from cpppo.server.enip import client
+
+        cambioTexto(host,i,"Medida",listaASCII(row[1]))
+        cambioTexto(host,i,"PliegoMesaAlta",listaASCII(row[2]))
+        escribirGreenTire(host,i,row[3])
+        escribirCompuesto(host,i,[row[6],row[12]])
+
+        tags=[
+            "RecetasPL[{}].PresionRodillo=(DINT){}".format(i,int(row[4])),
+            "RecetasPL[{}].VelocidadMax=(DINT){}".format(i,int(row[5])),
+            "RecetasPL[{}].DIM_A_Comp_A=(DINT){}".format(i,int(row[10])),
+            "RecetasPL[{}].DIM_B_Comp_A=(DINT){}".format(i,int(row[11])),
+            "RecetasPL[{}].DIM_A_Comp_B=(DINT){}".format(i,int(row[16])),
+            "RecetasPL[{}].DIM_B_Comp_B=(DINT){}".format(i,int(row[17])),
+            "RecetasPL[{}].AnchoSqueegee_Comp_A=(DINT){}".format(i,int(row[8])),
+            "RecetasPL[{}].AnchoSqueegee_Comp_B=(DINT){}".format(i,int(row[14])),
+            "RecetasPL[{}].AnchoPliego_Comp_A=(DINT){}".format(i,int(row[9])),
+            "RecetasPL[{}].AnchoPliego_Comp_B=(DINT){}".format(i,int(row[15])),
+            "RecetasPL[{}].CalibreCaliente_Comp_A=(REAL){}".format(i,float(row[7])),
+            "RecetasPL[{}].CalibreCaliente_Comp_B=(REAL){}".format(i,float(row[13]))
+            ]
+        with connector( host=host ) as conn:
+            for index,descr,op,reply,status,value in conn.pipeline(operations=client.parse_operations( tags ), depth=2 ):
+                lista.append(value)
+        row = cursor.fetchone()
+    print("carga lista")
 
 #############################################################################################################################
 def insert(cursor, cnxn, request):
