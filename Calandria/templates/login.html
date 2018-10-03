@@ -8,9 +8,16 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
 	<link rel="shortcut icon" href="{{ url_for('static',filename='image/favicon.ico') }}" type="image/x-icon">
 	<title>Iniciar Sesión</title>
+	<style>
+		#fondo1 {
+			background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("{{ url_for('static',filename='image/m2.jpg') }}") fixed center center;
+			background-size: cover;
+			padding: 110px;
+			}
+	</style>
 </head>
 
-<body id="fondo">
+<body id="fondo1">
 	<div class="container">
 		<br>
 		<br>
