@@ -7,7 +7,7 @@ PLC
 
 {% block content %}
 	<br><br>
-	<table class="table">
+	<table id="tabla" class="table">
 		<thead class="thead-dark align-middle">
 		  	<tr class="border border-dark">
 				  <th class="align-middle" scope="col">PLIEGO DE GOMA</th>
@@ -25,6 +25,11 @@ PLC
 				  <th class="align-middle" scope="col">Diferencia entre liner y toegard - Red</th>
 				  <th class="align-middle" scope="col">Diferencia entre liner y toegard - Blue</th>
 				  <th class="align-middle" scope="col">MODIFICAR</th>
+		  </tr>
+		  <tr>
+			  <td colspan="15">
+					<input id="buscar" class="form-control mr-sm-2" type="text" placeholder="Buscar">
+			  </td>
 		  </tr>
 		</thead>
 		<tbody>
