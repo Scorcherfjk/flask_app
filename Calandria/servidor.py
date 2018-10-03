@@ -2,13 +2,14 @@ from os import urandom
 from io import BytesIO
 from flask import Flask, request, render_template, session
 from flask import redirect, url_for, request, send_file
+from database import conexion, host
 from conexiones import obtenerValores, leerString, cambioTexto
-from conexiones import nuevaReceta, cambiarReceta, eliminarReceta, insert, conexion
+from conexiones import nuevaReceta, cambiarReceta, eliminarReceta, insert
 from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel, sincro_to_db, sincro_to_plc
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
-host = "192.168.1.35"
+host = host()
 try:
 	cursor, cnxn = conexion()
 except Exception as e:
