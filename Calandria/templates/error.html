@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+	<link rel="shortcut icon" href="{{ url_for('static',filename='image/favicon.ico') }}" type="image/x-icon">
+	<title>Iniciar Sesión</title>
+	<style>
+		#fondo1 {
+			background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+			url("{{ url_for('static',filename='image/m2.jpg') }}") fixed center center;
+			background-size: cover;
+			padding: 110px;
+		}
+	</style>
+</head>
+
+<body id="fondo1">
+	<div class="container">
+		<br>
+		<br>
+		<div class="card mx-auto rounded border-secondary" style="max-width:500px;">
+			<h5 class="card-header text-capitalize text-white" style=" background-color: #ff0000;">Error</h5>
+			<div class="card-body">
+				<h3>Ha ocurrido un error en la conexion</h3>
+				<p>Verifique su red e intentelo de nuevo</p>
+				<a href="/" class="btn btn-success">Volver</a>
+			</div>
+		</div>
+
+	</div>
+	<script src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
+	<script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+</body>
+
+</html>
