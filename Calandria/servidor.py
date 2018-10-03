@@ -166,6 +166,8 @@ def exportar():
 
 @app.route('/error')
 def error():
+	if session:
+		session.clear()
 	return render_template('error.html')
 
 #############################################################################################################################
