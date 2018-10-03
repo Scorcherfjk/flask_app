@@ -11,7 +11,7 @@
 </head>
 
 <body id="fondo">
-	<img src="{{ url_for('static',filename='image/logo.jpg') }}" alt="logo goodyear">
+	<img id="gy" src="{{ url_for('static',filename='image/logo.jpg') }}" alt="logo goodyear">
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #133984">
 		<a class="nav-link" href="/inicio"><img src="{{ url_for('static',filename='image/logo2.jpg') }}" alt="logo de goodyear"></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -48,7 +48,7 @@
 						OPCIONES
 					</button>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" href="/exportar">Exportar</a>
+						<a class="dropdown-item load" href="/exportar">Exportar</a>
 						<a class="dropdown-item" href="/salir">Salir</a>
 					</div>
 				</div>
@@ -82,6 +82,7 @@
 
 	<script src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
 	<script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+	<script src="{{ url_for('static',filename='js/main.js') }}"></script>
 </body>
 
 </html>
