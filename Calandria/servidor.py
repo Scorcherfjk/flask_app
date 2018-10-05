@@ -183,4 +183,4 @@ def salir():
 
 
 if __name__ == '__main__':
-	app.run( debug=True, port=8000)
+	app.run( host="192.168.1.202",port=5010)
