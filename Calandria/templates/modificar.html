@@ -15,8 +15,9 @@ MODIFICAR RECETA
             <div class="card-header h4 bg-dark text-light">
                 <a class="navbar-brand" disabled>MODIFICACIÓN DE RECETA</a>
                 <input class="btn btn-primary text-light float-right" type="submit" value="GUARDAR">
-                <a href="/eliminar/{{ receta }}" class="btn btn-danger text-light float-right">ELIMINAR</a>
-
+                <a class="btn btn-danger text-light float-right" data-toggle="modal" data-target="#confirmacion">
+                    ELIMINAR
+                </a>
             </div>
             <div class="card-body">
                 <div class="form-row">
@@ -110,4 +111,21 @@ MODIFICAR RECETA
         </div>
     </form>
 </div>
+<div class="modal fade" id="confirmacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+	 aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalCenterTitle">Realmente desea eliminar la receta?</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					<a href="/eliminar/{{ receta }}" class="btn btn-danger text-light float-right">Eliminar</a>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
