@@ -432,6 +432,42 @@ def sincro_to_plc(host, cursor, cnxn):
     print("carga lista")
 
 #############################################################################################################################
+
+
+def leer_db(host, cursor, cnxn):
+    lista=[]
+    cursor.execute("SELECT * FROM [squeegee].[dbo].[calandria4r]")
+    row = cursor.fetchone() 
+    while row: 
+        value = {
+            "i" : row[0],
+            "medida" : row[1],
+            "PliegoMesaAlta" : row[2],
+            "GreenTire" : row[3],
+            "Compuesto" : [row[6],row[12]],
+            "PresionRodillo" : row[4],
+            "VelocidadMax" : row[5],
+            "dim_a_Comp_A" : row[10],
+            "dim_b_Comp_A" : row[11],
+            "dim_a_Comp_B" : row[16],
+            "dim_b_Comp_B" : row[17],
+            "AnchoSqueegee_Comp_A" : row[8],
+            "AnchoSqueegee_Comp_B" : row[14],
+            "AnchoPliego_Comp_A" : row[9],
+            "AnchoPliego_Comp_B" : row[15],
+            "CalibreCaliente_Comp_A" : row[7],
+            "CalibreCaliente_Comp_B" : row[13],
+            "diferencia_yellow" : row[18],
+            "diferencia_red" : row[19],
+            "diferencia_blue" : row[20],
+            "fecha_modificacion" : row[21]
+        }
+        lista.append(value)
+        row = cursor.fetchone()
+    return lista
+
+#############################################################################################################################
+
 def insert(cursor, cnxn, request):
 
     # Campos estandar

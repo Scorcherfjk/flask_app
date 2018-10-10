@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block title%}
-INICIO
+HISTORICO
 {% endblock %}
 
 
@@ -24,7 +24,7 @@ INICIO
 			<th class="align-middle" scope="col">Diferencia entre liner y toegard - Yellow</th>
 			<th class="align-middle" scope="col">Diferencia entre liner y toegard - Red</th>
 			<th class="align-middle" scope="col">Diferencia entre liner y toegard - Blue</th>
-			<th class="align-middle" scope="col">MODIFICAR</th>
+			<th class="align-middle" scope="col">Fecha de Modificación</th>
 		</tr>
 		<tr>
 			<td colspan="15">
@@ -65,7 +65,7 @@ INICIO
 			<!-- BLUE -->
 			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][4] }}</td>
 			<!-- BOTON -->
-			<td class="align-middle" scope="row" rowspan="2"><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
+			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][16] }}</td>
 		</tr>
 		<tr>
 			<!-- PLIEGO DE GOMA -->
@@ -118,7 +118,7 @@ INICIO
 			<!-- BLUE -->
 			<td class="align-middle" scope="row">N/A</td>
 			<!-- BOTON -->
-			<td class="align-middle" scope="row"><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
+			<td class="align-middle" scope="row">{{ datos[i[0]][16] }}</td>
 		</tr>
 		{% endif %}
 		{% endfor %}

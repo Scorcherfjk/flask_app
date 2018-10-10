@@ -4,8 +4,9 @@ from flask import Flask, request, render_template, session
 from flask import redirect, url_for, request, send_file
 from database import conexion, host
 from conexiones import obtenerValores, leerString, cambioTexto
-from conexiones import nuevaReceta, cambiarReceta, eliminarReceta, insert
-from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel, sincro_to_db, sincro_to_plc
+from conexiones import nuevaReceta, cambiarReceta, eliminarReceta
+from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel
+from conexiones import sincro_to_db, sincro_to_plc, insert, leer_db
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
@@ -55,6 +56,41 @@ def index():
 		except TimeoutError as toe:
 			print("EL PLC NO ESTA CONECTADO", toe.__class__)
 			return redirect(url_for('error'))
+	else:
+		return redirect(url_for('login'))
+
+#############################################################################################################################
+
+@app.route('/historico')
+def historico():
+	if session:
+		lista, datos = [], {}
+		values = leer_db(host, cursor, cnxn)
+		for i in values:
+			compuesto = i["Compuesto"]
+			greenT = i["GreenTire"]
+			lista.append([i["i"], i["medida"], greenT, compuesto])
+			valores = [
+				i["PresionRodillo"],
+				i["VelocidadMax"],
+				i["diferencia_yellow"],
+				i["diferencia_red"],
+				i["diferencia_blue"],
+				i["dim_a_Comp_A"],
+				i["dim_a_Comp_B"],
+				i["dim_b_Comp_A"],
+				i["dim_b_Comp_B"],
+				i["AnchoSqueegee_Comp_A"],
+				i["AnchoSqueegee_Comp_B"],
+				i["AnchoPliego_Comp_A"],
+				i["AnchoPliego_Comp_B"],
+				i["CalibreCaliente_Comp_A"],
+				i["CalibreCaliente_Comp_B"],
+				i["PliegoMesaAlta"],
+				i["fecha_modificacion"],
+			]
+			datos[i["i"]] = valores
+		return render_template('historico.html', lista=lista, datos=datos)
 	else:
 		return redirect(url_for('login'))
 

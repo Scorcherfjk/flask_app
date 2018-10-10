@@ -17,7 +17,8 @@
 	<div class="loader-page"></div>
 	<img class="gy" src="{{ url_for('static',filename='image/logo.jpg') }}" alt="logo goodyear">
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #133984">
-		<a class="nav-link" href="/inicio"><img id="gy" class="gy" src="{{ url_for('static',filename='image/logo2.jpg') }}" alt="logo de goodyear"></a>
+		<a class="nav-link" href="/inicio"><img id="gy" class="gy" src="{{ url_for('static',filename='image/logo2.jpg') }}"
+			 alt="logo de goodyear"></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 		 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -30,12 +31,17 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">
-						NUEVA RECETA 
+						NUEVA RECETA
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/historico">
+						HISTORICO
 					</a>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+					 aria-haspopup="true" aria-expanded="false">
 						SINCRONIZAR
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
