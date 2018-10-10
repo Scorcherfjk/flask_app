@@ -6,7 +6,7 @@ from database import conexion, host
 from conexiones import obtenerValores, leerString, cambioTexto
 from conexiones import nuevaReceta, cambiarReceta, eliminarReceta
 from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel
-from conexiones import sincro_to_db, sincro_to_plc, insert, leer_db
+from conexiones import sincro_to_db, sincro_to_plc, insert, leer_db, usuario
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
@@ -30,12 +30,14 @@ def login():
 
 @app.route('/inicio', methods=['POST'])
 def entrada():
-	if request.form["user"] == "admin" and request.form["passwd"] == "12345":
-		session["user"] = request.form["user"]
-		session["passwd"] = request.form["passwd"]
-		return redirect(url_for('index'))
-	else:
-		return redirect(url_for('login'))
+	usuarios = usuario(cursor)
+	print(usuarios)
+	for i in usuarios:
+		if request.form["user"] == usuarios[i][0] and request.form["passwd"] == usuarios[i][1]:
+			session["user"] = request.form["user"]
+			session["passwd"] = request.form["passwd"]
+			return redirect(url_for('index'))
+	return redirect(url_for('login'))
 
 #############################################################################################################################
 
@@ -65,30 +67,12 @@ def index():
 def historico():
 	if session:
 		lista, datos = [], {}
-		values = leer_db(host, cursor, cnxn)
+		values = leer_db(cursor)
 		for i in values:
 			compuesto = i["Compuesto"]
 			greenT = i["GreenTire"]
 			lista.append([i["i"], i["medida"], greenT, compuesto])
-			valores = [
-				i["PresionRodillo"],
-				i["VelocidadMax"],
-				i["diferencia_yellow"],
-				i["diferencia_red"],
-				i["diferencia_blue"],
-				i["dim_a_Comp_A"],
-				i["dim_a_Comp_B"],
-				i["dim_b_Comp_A"],
-				i["dim_b_Comp_B"],
-				i["AnchoSqueegee_Comp_A"],
-				i["AnchoSqueegee_Comp_B"],
-				i["AnchoPliego_Comp_A"],
-				i["AnchoPliego_Comp_B"],
-				i["CalibreCaliente_Comp_A"],
-				i["CalibreCaliente_Comp_B"],
-				i["PliegoMesaAlta"],
-				i["fecha_modificacion"],
-			]
+			valores = [ i["PresionRodillo"], i["VelocidadMax"], i["diferencia_yellow"], i["diferencia_red"], i["diferencia_blue"], i["dim_a_Comp_A"], i["dim_a_Comp_B"], i["dim_b_Comp_A"], i["dim_b_Comp_B"], i["AnchoSqueegee_Comp_A"], i["AnchoSqueegee_Comp_B"], i["AnchoPliego_Comp_A"], i["AnchoPliego_Comp_B"], i["CalibreCaliente_Comp_A"], i["CalibreCaliente_Comp_B"], i["PliegoMesaAlta"], i["fecha_modificacion"] ]
 			datos[i["i"]] = valores
 		return render_template('historico.html', lista=lista, datos=datos)
 	else:

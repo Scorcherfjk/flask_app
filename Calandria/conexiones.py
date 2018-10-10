@@ -433,8 +433,7 @@ def sincro_to_plc(host, cursor, cnxn):
 
 #############################################################################################################################
 
-
-def leer_db(host, cursor, cnxn):
+def leer_db(cursor):
     lista=[]
     cursor.execute("SELECT * FROM [squeegee].[dbo].[calandria4r]")
     row = cursor.fetchone() 
@@ -465,6 +464,18 @@ def leer_db(host, cursor, cnxn):
         lista.append(value)
         row = cursor.fetchone()
     return lista
+
+#############################################################################################################################
+
+def usuario(cursor):
+    valores = {}
+    cursor.execute("SELECT * FROM [squeegee].[dbo].[usuario]")
+    row = cursor.fetchone() 
+    while row: 
+        value = [row[1],row[2]]
+        valores[row[0]] = value
+        row = cursor.fetchone()
+    return valores
 
 #############################################################################################################################
 
