@@ -467,12 +467,172 @@ def leer_db(cursor):
 
 #############################################################################################################################
 
+def inicio(cursor):
+    lista=[]
+    cursor.execute("SELECT * FROM [squeegee].[dbo].[receta]")
+    row = cursor.fetchone() 
+    while row: 
+        yellow = int(row[17]) - int(row[11])
+        red = yellow * 2 + int(row[14])
+        blue = (int(row[15]) - red) / 2
+        value = {
+            "i" : row[0],
+            "medida" : row[1],
+            "PliegoMesaAlta" : row[2],
+            "GreenTire" : row[3],
+            "Compuesto" : [row[6],row[12]],
+            "PresionRodillo" : row[4],
+            "VelocidadMax" : row[5],
+            "dim_a_Comp_A" : row[10],
+            "dim_b_Comp_A" : row[11],
+            "dim_a_Comp_B" : row[16],
+            "dim_b_Comp_B" : row[17],
+            "AnchoSqueegee_Comp_A" : row[8],
+            "AnchoSqueegee_Comp_B" : row[14],
+            "AnchoPliego_Comp_A" : row[9],
+            "AnchoPliego_Comp_B" : row[15],
+            "CalibreCaliente_Comp_A" : row[7],
+            "CalibreCaliente_Comp_B" : row[13],
+            "diferencia_yellow" : yellow,
+            "diferencia_red" : red,
+            "diferencia_blue" : blue,
+            "fecha_modificacion" : row[21]
+        }
+        lista.append(value)
+        row = cursor.fetchone()
+    return lista
+
+#############################################################################################################################
+
+def leer_elemento(cursor, variable):
+    cursor.execute("SELECT TOP 1 * FROM [squeegee].[dbo].[receta] WHERE [id] = {}".format(int(variable)))
+    row = cursor.fetchone() 
+    value = {
+        "i" : row[0],
+        "medida" : row[1],
+        "PliegoMesaAlta" : row[2],
+        "GreenTire" : row[3],
+        "Compuesto" : [row[6],row[12]],
+        "PresionRodillo" : row[4],
+        "VelocidadMax" : row[5],
+        "dim_a_Comp_A" : row[10],
+        "dim_b_Comp_A" : row[11],
+        "dim_a_Comp_B" : row[16],
+        "dim_b_Comp_B" : row[17],
+        "AnchoSqueegee_Comp_A" : row[8],
+        "AnchoSqueegee_Comp_B" : row[14],
+        "AnchoPliego_Comp_A" : row[9],
+        "AnchoPliego_Comp_B" : row[15],
+        "CalibreCaliente_Comp_A" : row[7],
+        "CalibreCaliente_Comp_B" : row[13],
+    }
+    return value
+
+#############################################################################################################################
+    
+def nuevaReceta_db(host, cursor, cnxn, request):
+    for l in range(1,300):
+        var = leerString(host,l,"Medida")
+        if len(var) > 1:
+            pass
+        else:
+            i = l
+            break
+    lista = []
+    from cpppo.server.enip.client import connector
+    from cpppo.server.enip import client
+
+    cambioTexto(host,i,"Medida",listaASCII(request.form["PLIEGODEGOMA"]))
+    cambioTexto(host,i,"PliegoMesaAlta",listaASCII(request.form["PLIEGODEMESAALTA"]))
+    escribirGreenTire(host,i,request.form["GREENTIRE"])
+    escribirCompuesto(host,i,[request.form["COMPUESTOA"],request.form["COMPUESTOB"]])
+
+    tags=[
+           "RecetasPL[{}].PresionRodillo=(DINT){}".format(i,int(request.form["PRESIÓNDERODILLO"])),
+           "RecetasPL[{}].VelocidadMax=(DINT){}".format(i,int(request.form["VELOCIDADMAXIMA"])),
+           "RecetasPL[{}].DIM_A_Comp_A=(DINT){}".format(i,int(request.form["DIMAA"])),
+           "RecetasPL[{}].DIM_A_Comp_B=(DINT){}".format(i,int(request.form["DIMAB"])),
+           "RecetasPL[{}].DIM_B_Comp_A=(DINT){}".format(i,int(request.form["DIMBA"])),
+           "RecetasPL[{}].DIM_B_Comp_B=(DINT){}".format(i,int(request.form["DIMBB"])),
+           "RecetasPL[{}].AnchoSqueegee_Comp_A=(DINT){}".format(i,int(request.form["ANCHOSQUEEGEEA"])),
+           "RecetasPL[{}].AnchoSqueegee_Comp_B=(DINT){}".format(i,int(request.form["ANCHOSQUEEGEEB"])),
+           "RecetasPL[{}].AnchoPliego_Comp_A=(DINT){}".format(i,int(request.form["ANCHOPLIEGOA"])),
+           "RecetasPL[{}].AnchoPliego_Comp_B=(DINT){}".format(i,int(request.form["ANCHOPLIEGOB"])),
+           "RecetasPL[{}].CalibreCaliente_Comp_A=(REAL){}".format(i,float(request.form["CALIBRECALIENTEA"])),
+           "RecetasPL[{}].CalibreCaliente_Comp_B=(REAL){}".format(i,float(request.form["CALIBRECALIENTEB"]))
+         ]
+    with connector( host=host ) as conn:
+        for index,descr,op,reply,status,value in conn.pipeline(operations=client.parse_operations( tags ), depth=2 ):
+            lista.append(value)
+    return lista
+
+#############################################################################################################################
+   
+def cambiarReceta_db(host, cursor, cnxn, request):
+
+    sql = """ UPDATE [squeegee].[dbo].[receta]
+    SET [pliego_goma] = {1}
+      ,[pliego_mesa_alta] = {2}
+      ,[green_tire] = {3}
+      ,[presion_rodillo] = {6}
+      ,[velocidad_maxima] = {7}
+      ,[compuesto_a] = {4}
+      ,[calibre_caliente_a] = {16}
+      ,[ancho_squeegee_a] = {12}
+      ,[ancho_pliego_a] = {14}
+      ,[dima_a] = {8}
+      ,[dimb_a] = {9}
+      ,[compuesto_b] = {5}
+      ,[calibre_caliente_b] = {17}
+      ,[ancho_squeegee_b] = {13}
+      ,[ancho_pliego_b] = {15}
+      ,[dima_b] = {10}
+      ,[dimb_b] = {11}
+    WHERE [id] = {0}""".format( request.form["RECETA"], request.form["PLIEGODEGOMA"], request.form["PLIEGODEMESAALTA"], request.form["GREENTIRE"], request.form["COMPUESTOA"], request.form["COMPUESTOB"], float(request.form["PRESIÓNDERODILLO"]), float(request.form["VELOCIDADMAXIMA"]), float(request.form["DIMBA"]), float(request.form["DIMAB"]), float(request.form["DIMBA"]), float(request.form["DIMBB"]), float(request.form["ANCHOSQUEEGEEA"]), float(request.form["ANCHOSQUEEGEEB"]), float(request.form["ANCHOPLIEGOA"]), float(request.form["ANCHOPLIEGOB"]), request.form["CALIBRECALIENTEA"], request.form["CALIBRECALIENTEB"] )
+    cursor.execute(sql) 
+    cnxn.commit()
+    print("cambio listo")
+
+#############################################################################################################################
+   
+def eliminarReceta_db(host, cursor, cnxn, receta):
+    lista = []
+    i = int(receta)
+    from cpppo.server.enip.client import connector
+    from cpppo.server.enip import client
+
+    cambioTexto(host,i,"Medida",listaASCII(""))
+    cambioTexto(host,i,"PliegoMesaAlta",listaASCII(""))
+    escribirGreenTire(host,i,"")
+    escribirCompuesto(host,i,["",""])
+
+    tags=[
+           "RecetasPL[{}].PresionRodillo=(DINT){}".format(i,0),
+           "RecetasPL[{}].VelocidadMax=(DINT){}".format(i,0),
+           "RecetasPL[{}].DIM_A_Comp_A=(DINT){}".format(i,0),
+           "RecetasPL[{}].DIM_A_Comp_B=(DINT){}".format(i,0),
+           "RecetasPL[{}].DIM_B_Comp_A=(DINT){}".format(i,0),
+           "RecetasPL[{}].DIM_B_Comp_B=(DINT){}".format(i,0),
+           "RecetasPL[{}].AnchoSqueegee_Comp_A=(DINT){}".format(i,0),
+           "RecetasPL[{}].AnchoSqueegee_Comp_B=(DINT){}".format(i,0),
+           "RecetasPL[{}].AnchoPliego_Comp_A=(DINT){}".format(i,0),
+           "RecetasPL[{}].AnchoPliego_Comp_B=(DINT){}".format(i,0),
+           "RecetasPL[{}].CalibreCaliente_Comp_A=(REAL){}".format(i,0),
+           "RecetasPL[{}].CalibreCaliente_Comp_B=(REAL){}".format(i,0)
+         ]
+    with connector( host=host ) as conn:
+        for index,descr,op,reply,status,value in conn.pipeline(operations=client.parse_operations( tags ), depth=2 ):
+            lista.append(value)
+    return lista
+
+#############################################################################################################################
+
 def usuario(cursor):
     valores = {}
     cursor.execute("SELECT * FROM [squeegee].[dbo].[usuario]")
     row = cursor.fetchone() 
     while row: 
-        value = [row[1],row[2]]
+        value = [row[1],row[2], row[3]]
         valores[row[0]] = value
         row = cursor.fetchone()
     return valores

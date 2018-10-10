@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block title%}
-INICIO
+INICIO | PLC
 {% endblock %}
 
 
@@ -21,10 +21,9 @@ INICIO
 			<th class="align-middle" scope="col">ANCHO PLIEGO +/- 3mm</th>
 			<th class="align-middle" scope="col">DIM A +/- 5mm</th>
 			<th class="align-middle" scope="col">DIM B +/- 5mm</th>
-			<th class="align-middle" scope="col">Diferencia entre liner y toegard - Yellow</th>
-			<th class="align-middle" scope="col">Diferencia entre liner y toegard - Red</th>
-			<th class="align-middle" scope="col">Diferencia entre liner y toegard - Blue</th>
-			<th class="align-middle" scope="col">MODIFICAR</th>
+			<th class="align-middle" scope="col">Diferencia entre liner y toegard - A</th>
+			<th class="align-middle" scope="col">Diferencia entre liner y toegard - B</th>
+			<th class="align-middle" scope="col">Diferencia entre liner y toegard - C</th>
 		</tr>
 		<tr>
 			<td colspan="15">
@@ -64,8 +63,6 @@ INICIO
 			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][3] }}</td>
 			<!-- BLUE -->
 			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][4] }}</td>
-			<!-- BOTON -->
-			<td class="align-middle" scope="row" rowspan="2"><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
 		</tr>
 		<tr>
 			<!-- PLIEGO DE GOMA -->
@@ -117,8 +114,6 @@ INICIO
 			<td class="align-middle" scope="row">N/A</td>
 			<!-- BLUE -->
 			<td class="align-middle" scope="row">N/A</td>
-			<!-- BOTON -->
-			<td class="align-middle" scope="row"><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
 		</tr>
 		{% endif %}
 		{% endfor %}

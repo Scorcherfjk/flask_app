@@ -6,7 +6,7 @@ from database import conexion, host
 from conexiones import obtenerValores, leerString, cambioTexto
 from conexiones import nuevaReceta, cambiarReceta, eliminarReceta
 from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel
-from conexiones import sincro_to_db, sincro_to_plc, insert, leer_db, usuario
+from conexiones import sincro_to_db, sincro_to_plc, insert, leer_db, usuario, inicio, cambiarReceta_db, leer_elemento
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
@@ -35,13 +35,31 @@ def entrada():
 		if request.form["user"] == usuarios[i][0] and request.form["passwd"] == usuarios[i][1]:
 			session["user"] = request.form["user"]
 			session["passwd"] = request.form["passwd"]
+			session["rol"] = usuarios[i][2]
 			return redirect(url_for('index'))
 	return redirect(url_for('login'))
 
 #############################################################################################################################
 
-@app.route('/inicio')
+@app.route('/database')
 def index():
+	if session:
+		lista, datos = [], {}
+		values = inicio(cursor)
+		for i in values:
+			compuesto = i["Compuesto"]
+			greenT = i["GreenTire"]
+			lista.append([i["i"], i["medida"], greenT, compuesto])
+			valores = [ i["PresionRodillo"], i["VelocidadMax"], i["diferencia_yellow"], i["diferencia_red"], i["diferencia_blue"], i["dim_a_Comp_A"], i["dim_a_Comp_B"], i["dim_b_Comp_A"], i["dim_b_Comp_B"], i["AnchoSqueegee_Comp_A"], i["AnchoSqueegee_Comp_B"], i["AnchoPliego_Comp_A"], i["AnchoPliego_Comp_B"], i["CalibreCaliente_Comp_A"], i["CalibreCaliente_Comp_B"], i["PliegoMesaAlta"], i["fecha_modificacion"] ]
+			datos[i["i"]] = valores
+		return render_template('database.html', lista=lista, datos=datos, rol=session["rol"])
+	else:
+		return redirect(url_for('login'))
+
+#############################################################################################################################
+
+@app.route('/plc_actual')
+def plc_actual():
 	if session:
 		try:
 			lista, datos = [], {}
@@ -53,7 +71,7 @@ def index():
 					lista.append([i, var, greenT, compuesto])
 					valores = obtenerValores(host,i)
 					datos[i] = valores
-			return render_template('index.html', lista=lista, datos=datos)
+			return render_template('plc.html', lista=lista, datos=datos)
 		except TimeoutError as toe:
 			print("EL PLC NO ESTA CONECTADO", toe.__class__)
 			return redirect(url_for('error'))
@@ -86,12 +104,13 @@ def modificar(variable=""):
 		if variable == "":
 			return redirect(url_for('index'))
 		else:
-			compuesto = leerCompuesto(host,variable)
-			greenT = leerGreenTire(host,variable)
-			var = leerString(host,variable,"Medida")
-			valores = obtenerValores(host,variable)
-			lista = [variable, var, greenT, compuesto]
+			i = leer_elemento(cursor, variable)
+			compuesto = i["Compuesto"]
+			greenT = i["GreenTire"]	
+			lista = [variable, i["medida"], greenT, compuesto]
+			valores = [ i["PresionRodillo"], i["VelocidadMax"],0,0,0, i["dim_a_Comp_A"], i["dim_a_Comp_B"], i["dim_b_Comp_A"], i["dim_b_Comp_B"], i["AnchoSqueegee_Comp_A"], i["AnchoSqueegee_Comp_B"], i["AnchoPliego_Comp_A"], i["AnchoPliego_Comp_B"], i["CalibreCaliente_Comp_A"], i["CalibreCaliente_Comp_B"], i["PliegoMesaAlta"] ]
 			datos = {variable: valores}
+			print(datos)
 		return render_template('modificar.html', i=lista, datos=datos, receta=variable)
 	else:
 		return redirect(url_for('login'))
@@ -145,7 +164,7 @@ def grabar_receta():
 def cambiar_receta():
 	if session:
 		insert(cursor, cnxn, request)
-		cambiarReceta(host, request)
+		cambiarReceta_db(host, cursor, cnxn, request)
 		return redirect(url_for('index'))
 	else:
 		return redirect(url_for('login'))

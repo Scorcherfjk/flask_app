@@ -1,0 +1,135 @@
+{% extends 'base/base.html' %}
+
+{% block title%}
+INICIO | BASE DE DATOS
+{% endblock %}
+
+
+{% block content %}
+<br><br>
+<table id="tabla" class="table">
+	<thead class="thead-dark align-middle">
+		<tr class="border border-dark">
+			<th class="align-middle" scope="col">PLIEGO DE GOMA</th>
+			<th class="align-middle" scope="col">PLIEGO DE MESA ALTA</th>
+			<th class="align-middle" scope="col">GREEN TIRE</th>
+			<th class="align-middle" scope="col">COMPUESTO</th>
+			<th class="align-middle" scope="col">CALIBRE CALIENTE (mm) +/- 0.1mm</th>
+			<th class="align-middle" scope="col">PRESIÓN DE RODILLO (PSI) +/- 10 PSI</th>
+			<th class="align-middle" scope="col">VELOCIDAD MAXIMA (MPM)</th>
+			<th class="align-middle" scope="col">ANCHO SQUEEGEE +/- 5mm</th>
+			<th class="align-middle" scope="col">ANCHO PLIEGO +/- 3mm</th>
+			<th class="align-middle" scope="col">DIM A +/- 5mm</th>
+			<th class="align-middle" scope="col">DIM B +/- 5mm</th>
+			<th class="align-middle" scope="col">Diferencia DIM B</th>
+			<th class="align-middle" scope="col">Diferencia DIM A</th>
+			<th class="align-middle" scope="col">Diferencia DIM B</th>
+			{% if rol == 1 %}
+			<th class="align-middle" scope="col">MODIFICAR</th>
+			{% endif %}
+		</tr>
+		<tr>
+			<td colspan="15">
+				<input id="buscar" class="form-control mr-sm-2" type="text" placeholder="Buscar">
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for i in lista %}
+		{% if  i[1] != "" %}
+		{% if i[3][0][0] != "0" %}
+		<tr>
+			<!-- PLIEGO DE GOMA -->
+			<th class="align-middle" scope="row" rowspan="2">{{ i[1] }}</th>
+			<!-- PLIEGO DE MESA ALTA -->
+			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][15] }}</td>
+			<!-- GREEN TIRE -->
+			<td class="align-middle" scope="row" rowspan="2">{{ i[2] }}</td>
+			<!-- COMPUESTO B -->
+			<td class="sin align-middle">{{ i[3][1] }}</td>
+			<!-- CALIBRE CALIENTE B -->
+			<td class="sin align-middle">{{ datos[i[0]][14] }}</td>
+			<!-- PRESIÓN DE RODILLO -->
+			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][0] }}</td>
+			<!-- VELOCIDAD MAXIMA -->
+			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][1] }}</td>
+			<!-- ANCHO SQUEEGEE B -->
+			<td class="sin align-middle">{{ datos[i[0]][10] }}</td>
+			<!-- ANCHO PLIEGO B -->
+			<td class="sin align-middle">{{ datos[i[0]][12] }}</td>
+			<!-- DIM A B -->
+			<td class="sin align-middle">{{ datos[i[0]][6] }}</td>
+			<!-- DIM B B -->
+			<td class="sin align-middle">{{ datos[i[0]][8] }}</td>
+			<!-- YELLOW -->
+			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][2] }}</td>
+			<!-- RED -->
+			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][3] }}</td>
+			<!-- BLUE -->
+			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][4] }}</td>
+			<!-- BOTON -->
+			{% if rol == 1 %}
+			<td class="align-middle" scope="row" rowspan="2"><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
+			{% endif %}
+		</tr>
+		<tr>
+			<!-- PLIEGO DE GOMA -->
+			<th class="align-middle" hidden>{{ i[1] }}</th>
+			<!-- PLIEGO DE MESA ALTA -->
+			<td class="align-middle" hidden>{{ datos[i[0]][15] }}</td>
+			<!-- GREEN TIRE -->
+			<td class="align-middle" hidden>{{ i[2] }}</td>
+			<!-- COMPUESTO A -->
+			<td class="align-middle">{{ i[3][0] }}</td>
+			<!-- CALIBRE CALIENTE A -->
+			<td class="align-middle">{{ datos[i[0]][13] }}</td>
+			<!-- ANCHO SQUEEGEE A -->
+			<td class="align-middle">{{ datos[i[0]][9] }}</td>
+			<!-- ANCHO PLIEGO A -->
+			<td class="align-middle">{{ datos[i[0]][11] }}</td>
+			<!-- DIM A A -->
+			<td class="align-middle">{{ datos[i[0]][5] }}</td>
+			<!-- DIM B A -->
+			<td class="align-middle">{{ datos[i[0]][7] }}</td>
+		</tr>
+		{% else %}
+		<tr>
+			<!-- PLIEGO DE GOMA -->
+			<th class="align-middle" scope="row">{{ i[1] }}</th>
+			<!-- PLIEGO DE MESA ALTA -->
+			<td class="align-middle" scope="row">{{ datos[i[0]][15] }}</td>
+			<!-- GREEN TIRE -->
+			<td class="align-middle" scope="row">{{ i[2] }}</td>
+			<!-- COMPUESTO B -->
+			<td class="align-middle" scope="row">{{ i[3][1] }}</td>
+			<!-- CALIBRE CALIENTE B -->
+			<td class="align-middle" scope="row">{{ datos[i[0]][14] }}</td>
+			<!-- PRESIÓN DE RODILLO -->
+			<td class="align-middle" scope="row">{{ datos[i[0]][0] }}</td>
+			<!-- VELOCIDAD MAXIMA -->
+			<td class="align-middle" scope="row">{{ datos[i[0]][1] }}</td>
+			<!-- ANCHO SQUEEGEE B -->
+			<td class="align-middle" scope="row">{{ datos[i[0]][10] }}</td>
+			<!-- ANCHO PLIEGO B -->
+			<td class="align-middle" scope="row">{{ datos[i[0]][12] }}</td>
+			<!-- DIM A B -->
+			<td class="align-middle" scope="row">{{ datos[i[0]][6] }}</td>
+			<!-- DIM B B -->
+			<td class="align-middle" scope="row">{{ datos[i[0]][8] }}</td>
+			<!-- YELLOW -->
+			<td class="align-middle" scope="row">N/A</td>
+			<!-- RED -->
+			<td class="align-middle" scope="row">N/A</td>
+			<!-- BLUE -->
+			<td class="align-middle" scope="row">N/A</td>
+			<!-- BOTON -->
+			{% if rol == 1 %}
+			<td class="align-middle" scope="row"><a class="btn btn-primary" href="/modificar/{{ i[0] }}" role="button">Modificar</a></td>
+			{% endif %}
+		</tr>
+		{% endif %}
+		{% endif %}
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}
