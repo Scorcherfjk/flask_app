@@ -31,7 +31,6 @@ def login():
 @app.route('/inicio', methods=['POST'])
 def entrada():
 	usuarios = usuario(cursor)
-	print(usuarios)
 	for i in usuarios:
 		if request.form["user"] == usuarios[i][0] and request.form["passwd"] == usuarios[i][1]:
 			session["user"] = request.form["user"]
