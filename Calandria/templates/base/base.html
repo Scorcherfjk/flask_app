@@ -40,6 +40,11 @@
 						NUEVA RECETA
 					</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/tolerancia">
+						TOLERANCIA
+					</a>
+				</li>
 				{% endif %}
 				<li class="nav-item">
 					<a class="nav-link" href="/historico">
@@ -63,7 +68,7 @@
 				<div class="dropdown">
 					<button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
 					 aria-haspopup="true" aria-expanded="false">
-						OPCIONES
+						{{ user }}
 					</button>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						<a class="dropdown-item load" href="/exportar">Exportar</a>

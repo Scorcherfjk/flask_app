@@ -37,7 +37,7 @@ MODIFICAR RECETA
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md">
-                        <label for="PRESIÓNDERODILLO">PRESIÓN DE RODILLO (PSI) +/- 10 PSI</label>
+                        <label for="PRESIÓNDERODILLO">PRESIÓN DE RODILLO (PSI) +/- {{ tol["presion"] }} PSI</label>
                         <input type="number" class="form-control" name="PRESIÓNDERODILLO" id="PRESIÓNDERODILLO" value="{{ datos[i[0]][0] }}">
                     </div>
                     <div class="form-group col-md">
@@ -60,23 +60,23 @@ MODIFICAR RECETA
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md">
-                            <label for="CALIBRECALIENTEA">CALIBRE CALIENTE +/- 0.1mm</label>
+                            <label for="CALIBRECALIENTEA">CALIBRE CALIENTE +/- {{ tol["calibre"] }}mm</label>
                             <input type="text" class="form-control" name="CALIBRECALIENTEA" id="CALIBRECALIENTEA" value="{{ datos[i[0]][13] }}">
                         </div>
                         <div class="form-group col-md">
-                            <label for="ANCHOSQUEEGEEA">ANCHO SQUEEGEE +/- 5mm </label>
+                            <label for="ANCHOSQUEEGEEA">ANCHO SQUEEGEE +/- {{ tol["squeegee"] }}mm </label>
                             <input type="number" class="form-control" name="ANCHOSQUEEGEEA" id="ANCHOSQUEEGEEA" value="{{ datos[i[0]][9] }}">
                         </div>
                         <div class="form-group col-md">
-                            <label for="ANCHOPLIEGOA">ANCHO PLIEGO +/- 3mm </label>
+                            <label for="ANCHOPLIEGOA">ANCHO PLIEGO +/- {{ tol["pliego"] }}mm </label>
                             <input type="number" class="form-control" name="ANCHOPLIEGOA" id="ANCHOPLIEGOA" value="{{ datos[i[0]][11] }}">
                         </div>
                         <div class="form-group col-md">
-                            <label for="DIMAA">DIM A +/- 5mm</label>
+                            <label for="DIMAA">DIM A +/- {{ tol["dima"] }}mm</label>
                             <input type="number" class="form-control" name="DIMAA" id="DIMAA" value="{{ datos[i[0]][5] }}">
                         </div>
                         <div class="form-group col-md">
-                            <label for="DIMBA">DIM B +/- 5mm </label>
+                            <label for="DIMBA">DIM B +/- {{ tol["dimb"] }}mm </label>
                             <input type="number" class="form-control" name="DIMBA" id="DIMBA" value="{{ datos[i[0]][7] }}">
                         </div>
                     </div>
@@ -87,23 +87,23 @@ MODIFICAR RECETA
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md">
-                        <label for="CALIBRECALIENTEB">CALIBRE CALIENTE +/- 0.1mm</label>
+                        <label for="CALIBRECALIENTEB">CALIBRE CALIENTE +/- {{ tol["calibre"] }}mm</label>
                         <input type="text" class="form-control" name="CALIBRECALIENTEB" id="CALIBRECALIENTEB" value="{{ datos[i[0]][14] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="ANCHOSQUEEGEEB">ANCHO SQUEEGEE +/- 5mm </label>
+                        <label for="ANCHOSQUEEGEEB">ANCHO SQUEEGEE +/- {{ tol["squeegee"] }}mm </label>
                         <input type="number" class="form-control" name="ANCHOSQUEEGEEB" id="ANCHOSQUEEGEEB" value="{{ datos[i[0]][10] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="ANCHOPLIEGOB">ANCHO PLIEGO +/- 3mm </label>
+                        <label for="ANCHOPLIEGOB">ANCHO PLIEGO +/- {{ tol["pliego"] }}mm </label>
                         <input type="number" class="form-control" name="ANCHOPLIEGOB" id="ANCHOPLIEGOB" value="{{ datos[i[0]][12] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="DIMAB">DIM A +/- 5mm </label>
+                        <label for="DIMAB">DIM A +/- {{ tol["dima"] }}mm </label>
                         <input type="number" class="form-control" name="DIMAB" id="DIMAB" value="{{ datos[i[0]][6] }}">
                     </div>
                     <div class="form-group col-md">
-                        <label for="DIMBB">DIM B +/- 5mm </label>
+                        <label for="DIMBB">DIM B +/- {{ tol["dimb"] }}mm </label>
                         <input type="number" class="form-control" name="DIMBB" id="DIMBB" value="{{ datos[i[0]][8] }}">
                     </div>
                 </div>

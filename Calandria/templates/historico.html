@@ -14,20 +14,21 @@ HISTORICO
 			<th class="align-middle" scope="col">PLIEGO DE MESA ALTA</th>
 			<th class="align-middle" scope="col">GREEN TIRE</th>
 			<th class="align-middle" scope="col">COMPUESTO</th>
-			<th class="align-middle" scope="col">CALIBRE CALIENTE (mm) +/- 0.1mm</th>
-			<th class="align-middle" scope="col">PRESIÓN DE RODILLO (PSI) +/- 10 PSI</th>
+			<th class="align-middle" scope="col">CALIBRE CALIENTE (mm)</th>
+			<th class="align-middle" scope="col">PRESIÓN DE RODILLO (PSI)</th>
 			<th class="align-middle" scope="col">VELOCIDAD MAXIMA (MPM)</th>
-			<th class="align-middle" scope="col">ANCHO SQUEEGEE +/- 5mm</th>
-			<th class="align-middle" scope="col">ANCHO PLIEGO +/- 3mm</th>
-			<th class="align-middle" scope="col">DIM A +/- 5mm</th>
-			<th class="align-middle" scope="col">DIM B +/- 5mm</th>
-			<th class="align-middle" scope="col">Diferencia entre liner y toegard - Yellow</th>
-			<th class="align-middle" scope="col">Diferencia entre liner y toegard - Red</th>
-			<th class="align-middle" scope="col">Diferencia entre liner y toegard - Blue</th>
+			<th class="align-middle" scope="col">ANCHO SQUEEGEE</th>
+			<th class="align-middle" scope="col">ANCHO PLIEGO</th>
+			<th class="align-middle" scope="col">DIM A</th>
+			<th class="align-middle" scope="col">DIM B</th>
+			<th class="align-middle" scope="col">Diferencia DIM B</th>
+			<th class="align-middle" scope="col">Diferencia DIM A</th>
+			<th class="align-middle" scope="col">Diferencia DIM B</th>
 			<th class="align-middle" scope="col">Fecha de Modificación</th>
+			<th class="align-middle" scope="col">Usuario</th>
 		</tr>
 		<tr>
-			<td colspan="15">
+			<td colspan="16">
 				<input id="buscar" class="form-control mr-sm-2" type="text" placeholder="Buscar">
 			</td>
 		</tr>
@@ -64,8 +65,10 @@ HISTORICO
 			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][3] }}</td>
 			<!-- BLUE -->
 			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][4] }}</td>
-			<!-- BOTON -->
+			<!-- FECHA -->
 			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][16] }}</td>
+			<!-- USUARIO -->
+			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][17] }}</td>
 		</tr>
 		<tr>
 			<!-- PLIEGO DE GOMA -->
@@ -117,8 +120,10 @@ HISTORICO
 			<td class="align-middle" scope="row">N/A</td>
 			<!-- BLUE -->
 			<td class="align-middle" scope="row">N/A</td>
-			<!-- BOTON -->
+			<!-- FECHA -->
 			<td class="align-middle" scope="row">{{ datos[i[0]][16] }}</td>
+			<!-- USUARIO -->
+			<td class="align-middle" scope="row">{{ datos[i[0]][17] }}</td>
 		</tr>
 		{% endif %}
 		{% endfor %}

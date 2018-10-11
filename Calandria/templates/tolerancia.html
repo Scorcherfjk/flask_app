@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+
+{% block title%}
+MEDIDAS DE TOLERANCIA
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="container">
+    <br><br>
+    <form action="/cambiar_tolerancia" method="post">
+        <div class="card border border-dark">
+            <div class="card-header h4 bg-dark text-light">
+                <a class="navbar-brand" disabled>MEDIDAS DE TOLERANCIA</a>
+                <input class="btn btn-primary text-light float-right" type="submit" value="GUARDAR">
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="PRESIÓNDERODILLO">PRESIÓN DE RODILLO (PSI) +/- ? PSI</label>
+                        <input type="number" class="form-control" name="PRESIONDERODILLO" id="PRESIONDERODILLO" value="{{ tol['calibre']  }}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="CALIBRECALIENTEB">CALIBRE CALIENTE +/- ? mm</label>
+                        <input type="text" class="form-control" name="CALIBRECALIENTE" id="CALIBRECALIENTE" value="{{ tol['presion'] }}">
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="ANCHOSQUEEGEEB">ANCHO SQUEEGEE +/- ? mm </label>
+                        <input type="number" class="form-control" name="ANCHOSQUEEGEE" id="ANCHOSQUEEGEE" value="{{ tol['squeegee'] }}">
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="ANCHOPLIEGOB">ANCHO PLIEGO +/- ? mm </label>
+                        <input type="number" class="form-control" name="ANCHOPLIEGO" id="ANCHOPLIEGO" value="{{ tol['pliego']  }}">
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="DIMAB">DIM A +/- ? mm </label>
+                        <input type="number" class="form-control" name="DIMA" id="DIMA" value="{{ tol['dima']  }}">
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="DIMBB">DIM B +/- ? mm </label>
+                        <input type="number" class="form-control" name="DIMB" id="DIMB" value="{{ tol['dimb']  }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

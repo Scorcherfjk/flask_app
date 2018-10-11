@@ -33,7 +33,7 @@ AGREGAR RECETA
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md">
-                        <label for="inputEmail4">PRESIÓN DE RODILLO (PSI) +/- 10 PSI</label>
+                        <label for="inputEmail4">PRESIÓN DE RODILLO (PSI) +/- {{ tol["presion"] }} PSI</label>
                         <input type="number" class="form-control" name="PRESIÓNDERODILLO" id="PRESIÓNDERODILLO">
                     </div>
                     <div class="form-group col-md">
@@ -47,23 +47,23 @@ AGREGAR RECETA
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md">
-                        <label for="inputEmail4">CALIBRE CALIENTE +/- 0.1mm</label>
+                        <label for="inputEmail4">CALIBRE CALIENTE +/- {{ tol["calibre"] }}mm</label>
                         <input type="text" class="form-control" name="CALIBRECALIENTEB" id="CALIBRECALIENTEB">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">ANCHO SQUEEGEE +/- 5mm </label>
+                        <label for="inputPassword4">ANCHO SQUEEGEE +/- {{ tol["squeegee"] }}mm </label>
                         <input type="number" class="form-control" name="ANCHOSQUEEGEEB" id="ANCHOSQUEEGEEB">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">ANCHO PLIEGO +/- 3mm </label>
+                        <label for="inputPassword4">ANCHO PLIEGO +/- {{ tol["pliego"] }}mm </label>
                         <input type="number" class="form-control" name="ANCHOPLIEGOB" id="ANCHOPLIEGOB">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">DIM A +/- 5mm </label>
+                        <label for="inputPassword4">DIM A +/- {{ tol["dima"] }}mm </label>
                         <input type="number" class="form-control" name="DIMAB" id="DIMAB">
                     </div>
                     <div class="form-group col-md">
-                        <label for="inputPassword4">DIM B +/- 5mm </label>
+                        <label for="inputPassword4">DIM B +/- {{ tol["dimb"] }}mm </label>
                         <input type="number" class="form-control" name="DIMBB" id="DIMBB">
                     </div>
                 </div>
