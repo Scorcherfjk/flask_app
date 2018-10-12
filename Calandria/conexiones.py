@@ -329,24 +329,14 @@ def escribirCompuesto(host,elemento,texto):
 
 #############################################################################################################################
 
-def exportarExcel(host, output):
+def exportarExcel(cnxn, output):
     import pandas as pd
 
-    lista = matriz(host)
-
-    df = pd.DataFrame(data=lista,columns=[
-        "nro_columna","PliegoGoma","PliegoMesaAlta","GreenTire", "PresionRodillo","VelocidadMax",
-        "CompuestoA","CalibreCaliente_Comp_A","AnchoSqueegee_Comp_A","AnchoPliego_Comp_A","DIM_A_Comp_A","DIM_B_Comp_A",
-        "CompuestoB","CalibreCaliente_Comp_B","AnchoSqueegee_Comp_B","AnchoPliego_Comp_B","DIM_A_Comp_B","DIM_B_Comp_B",
-        "Dif_LinerToegard_Yellow","Dif_LinerToegard_Red","Dif_LinerToegard_Blue"
-    ])
-
-    columnas = df.columns.tolist()
-    columnas.pop(0)
-    df_1 = pd.DataFrame(data=df[columnas], index=df.nro_columna)
+    sql = "SELECT * FROM [squeegee].[dbo].[receta]"
+    df = pd.read_sql(sql,cnxn)
 
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df_1.to_excel(writer, startrow = 0, merge_cells = False, sheet_name = "Sheet_1")
+    df.to_excel(writer, startrow = 0, merge_cells = False, sheet_name = "Sheet_1")
     workbook = writer.book
     worksheet = writer.sheets["Sheet_1"]
     formato = workbook.add_format()
@@ -437,7 +427,9 @@ def leer_db(cursor):
     lista=[]
     cursor.execute("SELECT * FROM [squeegee].[dbo].[historico]")
     row = cursor.fetchone() 
-    while row: 
+    while row:
+        dt = row[21]
+        fecha = "{}/{}/{} {}:{}:{}".format(dt.day,dt.month,dt.year,dt.hour,dt.minute,dt.second)
         value = {
             "i" : row[0],
             "medida" : row[1],
@@ -459,7 +451,7 @@ def leer_db(cursor):
             "diferencia_yellow" : row[18],
             "diferencia_red" : row[19],
             "diferencia_blue" : row[20],
-            "fecha_modificacion" : row[21],
+            "fecha_modificacion" : fecha[0:23],
             "usuario" : row[22]
         }
         lista.append(value)

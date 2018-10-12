@@ -59,8 +59,7 @@ def index():
 								,datos=datos
 								,rol=session["rol"]
 								,tol=tol
-								,user=session["user"]
-								)
+								,user=session["user"])
 	else:
 		return redirect(url_for('login'))
 
@@ -206,7 +205,7 @@ def plc_to_db():
 def exportar():
 	if session:
 		salida = BytesIO()
-		output = exportarExcel(host, salida)
+		output = exportarExcel(cnxn, salida)
 		archivo = "nombre_archivo"
 		return send_file(output, attachment_filename=archivo+".xlsx", as_attachment=True)
 	else:
