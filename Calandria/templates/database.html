@@ -4,6 +4,8 @@
 INICIO | BASE DE DATOS
 {% endblock %}
 
+{% block actual %} BASE DE DATOS {% endblock %}
+
 
 {% block content %}
 <br><br>
@@ -21,9 +23,9 @@ INICIO | BASE DE DATOS
 			<th class="align-middle" scope="col">ANCHO PLIEGO +/- {{ tol["pliego"] }}mm</th>
 			<th class="align-middle" scope="col">DIM A +/- {{ tol["dima"] }}mm</th>
 			<th class="align-middle" scope="col">DIM B +/- {{ tol["dimb"] }}mm</th>
-			<th class="align-middle" scope="col">Diferencia DIM B</th>
 			<th class="align-middle" scope="col">Diferencia DIM A</th>
 			<th class="align-middle" scope="col">Diferencia DIM B</th>
+			<th class="align-middle" scope="col">Diferencia DIM C</th>
 			{% if rol == 1 %}
 			<th class="align-middle" scope="col">MODIFICAR</th>
 			{% endif %}
