@@ -18,30 +18,50 @@ MEDIDAS DE TOLERANCIA
             </div>
             <div class="card-body">
                 <div class="form-row">
-                    <div class="form-group col-md">
+                    <div class="form-group col-md-4">
                         <label for="PRESIÓNDERODILLO">PRESIÓN DE RODILLO (PSI) +/- ? PSI</label>
+                    </div>
+                    <div class="form-group col-md">
                         <input type="number" class="form-control" name="PRESIONDERODILLO" id="PRESIONDERODILLO" value="{{ tol['presion'] }}">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md">
+                    <div class="form-group col-md-4">
                         <label for="CALIBRECALIENTEB">CALIBRE CALIENTE +/- ? mm</label>
+                    </div>
+                    <div class="form-group col-md">
                         <input type="text" class="form-control" name="CALIBRECALIENTE" id="CALIBRECALIENTE" value="{{ tol['calibre'] }}">
                     </div>
-                    <div class="form-group col-md">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
                         <label for="ANCHOSQUEEGEEB">ANCHO SQUEEGEE +/- ? mm </label>
+                    </div>
+                    <div class="form-group col-md">
                         <input type="number" class="form-control" name="ANCHOSQUEEGEE" id="ANCHOSQUEEGEE" value="{{ tol['squeegee'] }}">
                     </div>
-                    <div class="form-group col-md">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
                         <label for="ANCHOPLIEGOB">ANCHO PLIEGO +/- ? mm </label>
+                    </div>
+                    <div class="form-group col-md">
                         <input type="number" class="form-control" name="ANCHOPLIEGO" id="ANCHOPLIEGO" value="{{ tol['pliego']  }}">
                     </div>
-                    <div class="form-group col-md">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
                         <label for="DIMAB">DIM A +/- ? mm </label>
-                        <input type="number" class="form-control" name="DIMA" id="DIMA" value="{{ tol['dima']  }}">
                     </div>
                     <div class="form-group col-md">
+                        <input type="number" class="form-control" name="DIMA" id="DIMA" value="{{ tol['dima']  }}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
                         <label for="DIMBB">DIM B +/- ? mm </label>
+                    </div>
+                    <div class="form-group col-md">
                         <input type="number" class="form-control" name="DIMB" id="DIMB" value="{{ tol['dimb']  }}">
                     </div>
                 </div>
