@@ -9,7 +9,23 @@ INICIO | BASE DE DATOS
 	<p class="nav-link" href="" style="color:#FEE900;">
 		<strong> ACTUALMENTE EN : BASE DE DATOS</strong>
 	</p>
-</li>  
+</li>
+{% endblock %}
+
+{% block sincronia %}
+{% if sincro %}
+<li class="nav-item">
+	<p class="nav-link" href="" style="color:rgb(80, 254, 0);">
+		<strong> SISTEMA SINCRONIZADO</strong>
+	</p>
+</li>
+{% else %}
+<li class="nav-item">
+	<p class="nav-link" href="" style="color:rgb(254, 135, 0);">
+		<strong> SE REQUIERE SINCRONIZACION</strong>
+	</p>
+</li>
+{% endif %}
 {% endblock %}
 
 
@@ -44,7 +60,7 @@ INICIO | BASE DE DATOS
 	</thead>
 	<tbody>
 		{% for i in lista %}
-		{% if  i[1] != "" %}
+		{% if i[1] != "" %}
 		{% if i[3][0][0] != "0" %}
 		<tr>
 			<!-- PLIEGO DE GOMA -->

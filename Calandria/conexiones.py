@@ -425,7 +425,7 @@ def sincro_to_plc(host, cursor, cnxn):
 
 def leer_db(cursor):
     lista=[]
-    cursor.execute("SELECT * FROM [squeegee].[dbo].[historico]")
+    cursor.execute("SELECT * FROM [squeegee].[dbo].[historico] ORDER BY [fecha_modificacion] DESC ")
     row = cursor.fetchone() 
     while row:
         dt = row[21]
@@ -750,3 +750,33 @@ def insert(cursor, cnxn, request, session):
 
     cursor.execute(sql) 
     cnxn.commit()
+
+#############################################################################################################################
+
+def cargado(cursor, cnxn, session):
+
+    usuario = session["user"]
+
+    sql = """INSERT INTO [squeegee].[dbo].[historico]
+           ([pliego_goma],[pliego_mesa_alta],[green_tire],[presion_rodillo],[velocidad_maxima]
+           ,[compuesto_a],[calibre_caliente_a],[ancho_squeegee_a],[ancho_pliego_a],[dima_a],[dimb_a]
+           ,[compuesto_b],[calibre_caliente_b],[ancho_squeegee_b],[ancho_pliego_b],[dima_b],[dimb_b]
+           ,[diferencia_yellow],[diferencia_red],[diferencia_blue],[usuario])
+        VALUES
+           ('Carga a PLC realizada con exito','0','0',0,0,
+           '0',0,0,0,0,0,
+           '0',0,0,0,0,0,
+           0,0,0,'{}')""".format(usuario)
+    
+    cursor.execute(sql) 
+    cnxn.commit()
+
+#############################################################################################################################
+
+def sincronia(cursor):
+    cursor.execute("SELECT TOP 1 [pliego_goma] FROM [squeegee].[dbo].[historico] ORDER BY [fecha_modificacion] DESC ")
+    row = cursor.fetchone()
+    if row[0] == 'Carga a PLC realizada con exito':
+        return True
+    else:
+        return False

@@ -9,7 +9,7 @@ HISTORICO
 	<p class="nav-link" href="" style="color:#FEE900;">
 		<strong> ACTUALMENTE EN : HISTORICO</strong>
 	</p>
-</li>  
+</li>
 {% endblock %}
 
 {% block content %}
@@ -42,6 +42,16 @@ HISTORICO
 	</thead>
 	<tbody>
 		{% for i in lista %}
+		{% if i[1] == "Carga a PLC realizada con exito" %}
+		<tr class="alert alert-primary" style="color:black;">
+			<!-- PLIEGO DE GOMA -->
+			<th class="align-middle text-uppercase" scope="row" colspan="12">{{ i[1] }}</th>
+			<!-- FECHA -->
+			<td class="align-middle" scope="row"  colspan="2"><strong>{{ datos[i[0]][16] }}</strong></td>
+			<!-- USUARIO -->
+			<td class="align-middle" scope="row" colspan="2">{{ datos[i[0]][17] }}</td>
+		</tr>
+		{% else %}
 		{% if i[3][0][0] != "0" %}
 		<tr>
 			<!-- PLIEGO DE GOMA -->
@@ -132,6 +142,7 @@ HISTORICO
 			<!-- USUARIO -->
 			<td class="align-middle" scope="row">{{ datos[i[0]][17] }}</td>
 		</tr>
+		{% endif %}
 		{% endif %}
 		{% endfor %}
 	</tbody>

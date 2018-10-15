@@ -1,13 +1,14 @@
 from os import urandom
 from io import BytesIO
+from datetime import datetime
 from flask import Flask, request, render_template, session
 from flask import redirect, url_for, request, send_file
 from database import conexion, host
 from conexiones import obtenerValores, leerString, cambioTexto, inicio, usuario
 from conexiones import nuevaReceta, cambiarReceta, eliminarReceta, nuevaReceta_db
-from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel
+from conexiones import listaASCII, leerCompuesto, leerGreenTire, exportarExcel, sincronia
 from conexiones import sincro_to_db, sincro_to_plc, insert, leer_db, cambiarTolerancia
-from conexiones import cambiarReceta_db, leer_elemento, tolerancia, eliminarReceta_db
+from conexiones import cambiarReceta_db, leer_elemento, tolerancia, eliminarReceta_db, cargado
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
@@ -46,6 +47,7 @@ def entrada():
 def index():
 	if session:
 		lista, datos = [], {}
+		sincro = sincronia(cursor)
 		tol = tolerancia(cursor)
 		values = inicio(cursor)
 		for i in values:
@@ -59,7 +61,8 @@ def index():
 								,datos=datos
 								,rol=session["rol"]
 								,tol=tol
-								,user=session["user"])
+								,user=session["user"]
+								,sincro=sincro)
 	else:
 		return redirect(url_for('login'))
 
@@ -185,6 +188,7 @@ def cambiar_receta():
 def db_to_plc():
 	if session:
 		sincro_to_plc(host, cursor, cnxn)
+		cargado(cursor, cnxn, session)
 		return redirect(url_for('index'))
 	else:
 		return redirect(url_for('login'))
@@ -204,9 +208,10 @@ def plc_to_db():
 @app.route('/exportar')
 def exportar():
 	if session:
+		dt = datetime.now()
 		salida = BytesIO()
 		output = exportarExcel(cnxn, salida)
-		archivo = "nombre_archivo"
+		archivo = "Recetas_Calandria_4R_{}/{}/{}_{}:{}:{}".format(dt.day, dt.month, dt.year, dt.hour, dt.minute, dt.second)
 		return send_file(output, attachment_filename=archivo+".xlsx", as_attachment=True)
 	else:
 		return redirect(url_for('login'))
