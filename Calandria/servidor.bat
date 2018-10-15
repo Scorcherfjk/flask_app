@@ -1,0 +1,1 @@
+C:/Anaconda3/python.exe c:/xampp/htdocs/flask_app/Calandria/servidor.py
