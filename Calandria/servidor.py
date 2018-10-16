@@ -73,6 +73,7 @@ def plc_actual():
 	if session:
 		try:
 			lista, datos = [], {}
+			sincro = sincronia(cursor)
 			tol = tolerancia(cursor)
 			for i in range(1,300):
 				var = leerString(host,i,"Medida")
@@ -82,7 +83,7 @@ def plc_actual():
 					lista.append([i, var, greenT, compuesto])
 					valores = obtenerValores(host,i)
 					datos[i] = valores
-			return render_template('plc.html', lista=lista, datos=datos, rol=session["rol"], user=session["user"], tol=tol)
+			return render_template('plc.html', lista=lista, datos=datos, rol=session["rol"], user=session["user"], tol=tol, sincro=sincro)
 		except TimeoutError as toe:
 			print("EL PLC NO ESTA CONECTADO", toe.__class__)
 			return redirect(url_for('error'))
@@ -95,6 +96,7 @@ def plc_actual():
 def historico():
 	if session:
 		lista, datos = [], {}
+		sincro = sincronia(cursor)
 		values = leer_db(cursor)
 		for i in values:
 			compuesto = i["Compuesto"]
@@ -102,7 +104,7 @@ def historico():
 			lista.append([i["i"], i["medida"], greenT, compuesto])
 			valores = [ i["PresionRodillo"], i["VelocidadMax"], i["diferencia_yellow"], i["diferencia_red"], i["diferencia_blue"], i["dim_a_Comp_A"], i["dim_a_Comp_B"], i["dim_b_Comp_A"], i["dim_b_Comp_B"], i["AnchoSqueegee_Comp_A"], i["AnchoSqueegee_Comp_B"], i["AnchoPliego_Comp_A"], i["AnchoPliego_Comp_B"], i["CalibreCaliente_Comp_A"], i["CalibreCaliente_Comp_B"], i["PliegoMesaAlta"], i["fecha_modificacion"], i["usuario"] ]
 			datos[i["i"]] = valores
-		return render_template('historico.html', lista=lista, datos=datos, rol=session["rol"], user=session["user"])
+		return render_template('historico.html', lista=lista, datos=datos, rol=session["rol"], user=session["user"], sincro=sincro)
 	else:
 		return redirect(url_for('login'))
 

@@ -12,6 +12,22 @@ INICIO | PLC
 </li>  
 {% endblock %}
 
+{% block sincronia %}
+{% if sincro %}
+<li class="nav-item">
+	<p class="nav-link" href="" style="color:rgb(80, 254, 0);">
+		<strong> SISTEMA SINCRONIZADO</strong>
+	</p>
+</li>
+{% else %}
+<li class="nav-item">
+	<p class="nav-link" href="" style="color:rgb(254, 135, 0);">
+		<strong> SE REQUIERE SINCRONIZACION</strong>
+	</p>
+</li>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <br><br>
 <table id="tabla" class="table">
