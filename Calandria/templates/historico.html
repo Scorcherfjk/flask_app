@@ -60,7 +60,7 @@ HISTORICO
 		{% for i in lista %}
 		{% if i[0] in pinta %}
 		{% if i[3][0][0] != "0" %}
-		<tr class="alert alert-warning" style="color:black;">
+		<tr class="alert alert-warning" style="color:black; background-color: rgba(254, 233, 0, 0.836);">
 			<!-- PLIEGO DE GOMA -->
 			<th class="align-middle" scope="row" rowspan="2">{{ i[1] }}</th>
 			<!-- PLIEGO DE MESA ALTA -->
@@ -94,7 +94,7 @@ HISTORICO
 			<!-- USUARIO -->
 			<td class="align-middle" scope="row" rowspan="2">{{ datos[i[0]][17] }}</td>
 		</tr>
-		<tr class="alert alert-warning" style="color:black;">
+		<tr class="alert alert-warning" style="color:black; background-color: rgba(254, 233, 0, 0.836);">
 			<!-- PLIEGO DE GOMA -->
 			<th class="align-middle" hidden>{{ i[1] }}</th>
 			<!-- PLIEGO DE MESA ALTA -->
@@ -115,7 +115,7 @@ HISTORICO
 			<td class="align-middle">{{ datos[i[0]][7] }}</td>
 		</tr>
 		{% else %}
-		<tr class="alert alert-warning" style="color:black;">
+		<tr class="alert alert-warning" style="color:black; background-color: rgba(254, 233, 0, 0.836);">
 			<!-- PLIEGO DE GOMA -->
 			<th class="align-middle" scope="row">{{ i[1] }}</th>
 			<!-- PLIEGO DE MESA ALTA -->
@@ -152,7 +152,7 @@ HISTORICO
 		{% endif %}
 		{% else %}
 		{% if i[1] == "Carga a PLC realizada con exito" %}
-		<tr class="alert alert-primary" style="color:black;">
+		<tr class="alert alert-success" style="color:black;">
 			<!-- PLIEGO DE GOMA -->
 			<th class="align-middle text-uppercase" scope="row" colspan="12">{{ i[1] }}</th>
 			<!-- FECHA -->
