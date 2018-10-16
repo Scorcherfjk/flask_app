@@ -780,3 +780,20 @@ def sincronia(cursor):
         return True
     else:
         return False
+
+#############################################################################################################################
+
+def pintar(cursor):
+    lista = []
+    sql = """SELECT [id] FROM [squeegee].[dbo].[historico] 
+            WHERE [fecha_modificacion] > 
+            (SELECT TOP 1 [fecha_modificacion] FROM [squeegee].[dbo].[historico] 
+            WHERE [pliego_goma] = 'Carga a PLC realizada con exito' ORDER BY [fecha_modificacion] DESC ) 
+            ORDER BY [fecha_modificacion] DESC"""
+    
+    cursor.execute(sql)
+    row = cursor.fetchone() 
+    while row:
+        lista.append(row[0])
+        row = cursor.fetchone()
+    return lista
